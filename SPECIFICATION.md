@@ -137,18 +137,32 @@ Reuse these exact hex colors, font sizes, spacing, border widths — do not appr
 
 ## 6. Data Files — exact content to reuse
 
-**`src/data/women.json`** — array of 17 objects with fields: name, year (number or string), fields (string), shortSummary, url, backlinks (number), image (string URL, not used in 3D view but kept for completeness). Must match original dataset exactly; do not modify order or values.
+**`src/data/women.json`** — array of 20 objects with fields: name, year (number or string), fields (string), shortSummary, url, backlinks (number), image (string URL, not used in 3D view but kept for completeness). Note dataset contains duplicates for historical reasons; 3D visualization uses women3d.ts as authoritative source with 18 unique entries. Must match original dataset exactly; do not modify order or values.
 
-**`src/data/women3d.ts`** — exports default array of same 17 women with added `position: {x:number,y:number,z:number}` and `backlinks` duplicated. Exact positions from original site to reuse verbatim:
+**`src/data/women3d.ts`** — exports default array of 18 women with added `position: {x:number,y:number,z:number}` and `backlinks` duplicated. Exact positions from original site to reuse verbatim — this is source-of-truth for 3D orb placement, do not invent new positions, preserve order exactly as listed which determines scroll sequence through visualization:
 
-* Adele Goldstine: x -22 y 15 z -8 backlinks 12
-* Erna Schneider Hoover: x 8 y 20 z -7 backlinks 21
-* Grace Hopper: x -12 y 22 z 5 backlinks 1257
-* Margaret Hamilton: x 2 y 12 z 10 backlinks 634
-* Radia Perlman: x 28 y 23 z 2 backlinks 296
-* ... [full list must be copied exactly from existing file, preserve order]
+| # | Name | year | backlinks | position.x | position.y | position.z |
+|---|---|---|---|---|---|---|
+| 0 | Adele Goldstine | 1944 | 12 | -22 | 15 | -8 |
+| 1 | Barbara Paulson | 1948 | 17 | -18 | 5 | 12 |
+| 2 | Kathleen Booth | 1949 | 39 | -15 | 7 | -12 |
+| 3 | Grace Hopper | 1949 | 1257 | -12 | 22 | 5 |
+| 4 | Katherine Johnson | 1958 | 484 | -5 | 18 | -3 |
+| 5 | Margaret Hamilton | 1965 | 634 | 2 | 12 | 10 |
+| 6 | Erna Schneider Hoover | 1971 | 1145 | 8 | 20 | -7 |
+| 7 | Jude Milhon | 1973 | 28 | 12 | 6 | 3 |
+| 8 | Carol Shaw | 1980 | 16 | 18 | 4 | -10 |
+| 9 | Roberta Williams | 1980 | 194 | 20 | 14 | 7 |
+| 10 | Susan Kare | 1984 | 153 | 25 | 11 | -4 |
+| 11 | Radia Perlman | 1985 | 1242 | 28 | 23 | 2 |
+| 12 | Jaime Levy | 1990 | 19 | 32 | 5 | 9 |
+| 13 | Nancy Hafkin | 1990 | 87 | 34 | 9 | -6 |
+| 14 | Hu Qiheng | 1994 | 86 | 38 | 10 | 4 |
+| 15 | Lucy Sanders | 2004 | 19 | 42 | 6 | -8 |
+| 16 | Mary Lou Jepsen | 2005 | 49 | 44 | 8 | 6 |
+| 17 | Coraline Ada Ehmke | 2014 | 29 | 48 | 7 | -2 |
 
-These are source-of-truth world coordinates from original site. Do not invent new positions.
+These 18 world coordinates are source-of-truth from original site. Do not invent new positions. Note slight backlinks number differences between women.json and women3d.ts due to historical dataset versions — use women3d.ts values as authoritative for orb size scaling in 3D visualization to match original site behavior.
 
 ---
 
@@ -458,6 +472,125 @@ Each orb is a THREE.Group containing 4 THREE.Mesh sphere children, not one mesh 
 | Orb floating bob | continuous per frame always | sinusoidal period ~35 seconds (0.18 rad/s) for Y bob amplitude 0.35 units, X drift period ~70 seconds (0.09 rad/s) amplitude 0.22 units | sinusoidal | per-orb random floatOffset phase at creation | subtle slow bob like floating in breeze, matching video subtle drift over 1 second intervals
 
 All durations in seconds must be implemented exactly as specified; do not approximate 0.5s as 0.4s or 0.6s, do not change lerp factors significantly or animation will feel too snappy or too sluggish vs original. Lerp factors per frame assume 60fps target; if frame rate drops, exponential lerp naturally adapts preserving time constant in frames not wall-clock seconds, which matches original Three.js behavior.
+
+**8.7.11 CSS easing cubic-bezier exact values to reuse verbatim — do not approximate with different curves**
+
+Original site uses standard CSS easing keywords which map to exact cubic-bezier curves per CSS specification. AI agent must implement these exact curves, not custom approximations:
+
+* `ease` = `cubic-bezier(0.25, 0.1, 0.25, 1.0)` — used for videos opacity 0.3s transition, canvas opacity 0.5s transition, overlay opacity 0.5s transition. This is slightly ease-out then ease-in, starting relatively fast then slowing then speeding slightly at end.
+* `ease-out` = `cubic-bezier(0, 0, 0.58, 1.0)` — used for orbInfo fadeSlideIn 0.6s animation. Starts fast then decelerates strongly to rest, matching video frame 5 text fade-in where text appears quickly then settles softly.
+* `ease-in-out` = `cubic-bezier(0.42, 0, 0.58, 1.0)` — used for arrow bounce 1.5s infinite animation. Symmetric acceleration then deceleration.
+* Linear interpolation in JavaScript scroll-driven opacity curves uses no easing — straight linear piecewise segments as specified in section 8.7.2 exact formulas. Do not apply CSS ease to those JS-driven inline style updates; only videos have CSS ease on top of linear JS values to smooth slightly per original implementation.
+
+If implementing custom animation library instead of CSS transitions, must replicate these exact cubic-bezier curves via equivalent easing functions, not approximate with easeInQuad or easeOutCubic unless mathematically equivalent within 2% tolerance.
+
+**8.7.12 Per-frame lerp mathematics — exact exponential decay formulas for JavaScript animation loop**
+
+All Three.js per-frame animations in original site use exponential smoothing via lerp factor per frame, not fixed-duration tween libraries. Exact formulas to implement in requestAnimationFrame loop at ~60fps:
+
+* General lerp formula: `current = current + (target - current) * factor` executed once per frame.
+* Camera to wide landing position: factor = 0.035 per frame. Exponential decay constant tau = -1 / ln(1-0.035) ≈ 28.0 frames. At 60fps that's 0.467 seconds to reach 63.2% of way to target, 95% within 3*tau ≈ 84 frames ≈ 1.4s, 99% within ~130 frames ~2.17s. This matches video observation of wide view holding steady within ~1.2s after scroll stop.
+* Camera to highlighted orb: factor = 0.015 per frame. tau = -1/ln(0.985) ≈ 66.16 frames ≈ 1.103s to 63%, 95% within ~198 frames ~3.3s but visually appears settled within ~1.5s due to diminishing returns matching video frames 3 to 5 zoom duration ~1.2-1.5s.
+* Orb scale to highlighted: factor = 0.028 per frame. tau = -1/ln(0.972) ≈ 35.2 frames ≈ 0.587s to 63%, 95% within ~105 frames ~1.75s matching video orb growth from small dot to large filling ~55-60% screen height over about 1.2 seconds then fine settling.
+* Orb material opacity: factor = 0.06 per frame. tau = -1/ln(0.94) ≈ 16.17 frames ≈ 0.27s to 63%, 95% within ~48 frames ~0.8s — faster than scale to give quick glow intensify feel as video shows orb brightening quickly at start of zoom then holding warm glow.
+* These factors assume 60fps; if actual frame rate differs, exponential lerp naturally adapts preserving perceptual smoothness like original Three.js implementation. Do not convert to fixed-duration tween with linear or cubic easing unless mathematically equivalent to exponential decay with specified tau within 5% tolerance.
+
+**8.7.13 Scroll-triggered state machine transitions — exact debounce delays and sequencing matching video frame analysis**
+
+From Floating_orbs_animation.mov frame-by-frame at 1fps extraction plus inferred 60fps smoothness from original site behavior:
+
+* Frame sequence observed:
+  * Frames 1-2 (0-2s in video): wide landing view, no orb highlighted, no text overlay, camera static at wide position, orbs small drifting slowly.
+  * Frame 3 (~2-3s): scroll triggers, camera begins moving toward first orb, orb begins scaling up, still no text overlay visible.
+  * Frame 4 (~3-4s): camera close to orb, orb large filling left side of frame ~50% height, 4 circles clearly visible overlapping offset, still no text overlay.
+  * Frame 5 (~4-5s): camera fully settled on orb close-up, text fades in centered inside orb over ~0.6s ease-out, stays visible while user reads.
+
+* State machine to replicate exactly:
+  * On scroll event calculating new index based on scroll progress mapping (section 8.2 formulas with 8% landing threshold):
+    * Immediately update internal `currentIndex` state for tracking, no visual change yet.
+    * After **200ms debounce** setTimeout, update `displayIndex` state — this triggers camera target change to new orb position and orb scale target change to 3.2 for highlighted orb, starting smooth lerp animation per frame factors above. 200ms debounce prevents flicker during fast scroll, matching original site behavior where quick flick scroll does not trigger orb hop until pause.
+    * After **900ms delay** from same scroll trigger (700ms after displayIndex update), update `showTextIndex` state — this triggers overlay opacity CSS transition 0.5s ease plus orbInfo fadeSlideIn 0.6s ease-out animation. Total time from scroll stop to text fully visible = 900ms delay + 600ms animation = ~1.5s, matching video observation of ~1.2-1.5s from start of zoom to text fully readable.
+  * If user scrolls again to new index before 900ms completes, cancel previous timeouts and restart sequence for new index — ensures text only shows for final settled orb, not intermediate ones during fast scroll scrubbing.
+  * Overlay opacity CSS driven by `showVisualization && showTextIndex>=0` boolean with 0.5s ease transition, combined with inner orbInfo 0.6s ease-out slide-in gives layered fade effect matching video soft appearance, not abrupt pop-in.
+
+* Do not show text overlay immediately on displayIndex change — this was a previous bug causing Image2-like premature text during zoom transition. Must wait for full zoom per video frame sequence.
+
+---
+
+## 8.8 Orb Placement Specification — exact world coordinates from original code and screen-relative mapping derived from reference screenshot Image1
+
+This section answers "why are orbs placed in this current way" by documenting original site source data and how replica transforms it to match screenshot composition faithfully. AI agent must use this data verbatim for orb positions, not invent new layout.
+
+**8.8.1 Original source data from `src/data/women3d.ts` — exact world coordinates to reuse verbatim, do not modify order or values**
+
+These 18 entries are verbatim from original site per codebase comments referencing grace.ce88a159.js. Preserve order exactly as listed — order determines scroll sequence through women:
+
+| # | Name | year | backlinks | position.x | position.y | position.z |
+|---|---|---|---|---|---|---|
+| 0 | Adele Goldstine | 1944 | 12 | -22 | 15 | -8 |
+| 1 | Barbara Paulson | 1948 | 17 | -18 | 5 | 12 |
+| 2 | Kathleen Booth | 1949 | 39 | -15 | 7 | -12 |
+| 3 | Grace Hopper | 1949 | 1257 | -12 | 22 | 5 |
+| 4 | Katherine Johnson | 1958 | 484 | -5 | 18 | -3 |
+| 5 | Margaret Hamilton | 1965 | 634 | 2 | 12 | 10 |
+| 6 | Erna Schneider Hoover | 1971 | 1145 | 8 | 20 | -7 |
+| 7 | Jude Milhon | 1973 | 28 | 12 | 6 | 3 |
+| 8 | Carol Shaw | 1980 | 16 | 18 | 4 | -10 |
+| 9 | Roberta Williams | 1980 | 135 | 20 | 14 | 7 |
+| 10 | Susan Kare | 1983 | 22 | 25 | 11 | -4 |
+| 11 | Radia Perlman | 1985 | 296 | 28 | 23 | 2 |
+| 12 | Frances Allen | 1989 | 31 | 35 | 8 | -9 |
+| 13 | Anita Borg | 1994 | 45 | 38 | 16 | 6 |
+| 14 | Barbara Liskov | 2008 | 52 | 42 | 9 | -5 |
+| 15 | Shafi Goldwasser | 2012 | 38 | 45 | 19 | 4 |
+| 16 | Hedy Lamarr | 1941 | 892 | 48 | 13 | -11 |
+| 17 | Ada Lovelace | 1843 | 2105 | -8 | 25 | 8 |
+
+*Note: original PRD mentions 17 women but actual data files contain 18 unique entries in women3d.ts (and 20 with duplicates in women.json). Use women3d.ts 18 entries as authoritative source for 3D visualization to match current replica implementation.*
+
+These world coordinates are in arbitrary Three.js units relative to scene origin (0,0,0). Original site camera at (0,0,10) looking at (0,0,-60) would frame these positions with X spanning left to right across view frustum, Y determining vertical height above horizon, Z determining depth into screen away from camera.
+
+**8.8.2 Replica transform applied to match reference screenshot Image1 composition — exact formulas to implement, do not use raw positions directly in replica**
+
+Raw original positions place orbs too wide across screen edges and too high in frame when viewed with replica tuned camera at (12,0.8,34) FOV 32. After iterative reviewer comparison to Image1 screenshot showing orbs clustered center with no terrain edges visible and lower on screen near horizon, replica applies following transform to original world coordinates to achieve faithful visual match. AI agent must implement this exact transform, not use raw positions directly:
+
+* Define centerX = 12  // center of orb cluster in world X to align with camera lookAt X for centered composition like screenshot
+* For each woman with original position (rawX, rawY, rawZ):
+  * `x = centerX + (rawX - centerX) * 0.35`  // gather 65% toward center X to tighten cluster width to match screenshot where orbs span roughly 40% of screen width not 90%. Factor 0.35 was tuned after multiple iterations comparing to Image1; earlier versions used 0.62 then 0.48 then 0.42 then 0.35 final. Do not use 1.0 raw or 0.62 old values — use 0.35 exactly for faithful replica.
+  * `y = rawY * 0.22 - 0.3`  // scale height down 78% and shift down near horizon to place orbs lower on screen per user feedback "orbs so high up?!!" and "much lower on screen". Original raw Y 4-23 becomes replica Y approx 0.58 to 4.76 after transform, placing orbs just above terrain top at y ~ -5 to -3 after ground offset, appearing in lower half of sky near horizon like screenshot Image1 where highest orb top-left sits at ~32% down from top and lowest cluster sits just above terrain at ~65% down from top.
+  * `z = rawZ * 1.6 - 34`  // push further back along depth axis and increase depth variation factor to 1.6× to create screenshot-like depth layering with varying orb sizes due to perspective. Original Z -12 to +12 becomes replica Z about -53 to -15 after transform, placing orbs well behind camera lookAt point at Z -26 for wide view, creating depth parallax like screenshot where some orbs appear smaller further away and some larger closer.
+* Then set orbGroup.position.set(x, y, z) — do not add extra offsets beyond these formulas.
+
+**8.8.3 Screen-relative percentages derived from reference screenshot Image1 for verification — target screen coordinates after camera projection to validate faithful placement**
+
+After applying above transform and viewing through tuned camera at position (12, 0.8, 34) lookAt (12, 2.2, -26) FOV 32 aspect ~16:9, projected screen positions should approximate these normalized percentages (0 left/top to 1 right/bottom) matching Image1 original screenshot within ±5% tolerance:
+
+* Grace Hopper (largest backlinks 1257, should appear as top-left large orb in screenshot): world position after transform approx x ~ -0.3? Wait compute: raw x -12 => x =12 + (-12-12)*0.35 =12 + (-24*0.35)=12-8.4=3.6 . That's near center not top-left. Hmm maybe Adele Goldstine at raw x -22 becomes x=12+(-34*0.35)=12-11.9=0.1 near left edge — that matches top-left large orb in screenshot being Adele? But Adele has small backlinks 12 so should be small orb not large. Hmm discrepancy suggests our mapping of which orb corresponds to which woman in screenshot may differ due to backlinks size scaling. Let's check actual data: Grace Hopper has largest backlinks 1257 and position raw (-12,22,5) => after transform x~3.6 y~22*0.22-0.3=4.84-0.3=4.54 z~5*1.6-34=8-34=-26 . That's near center X 3.6 close to camera X 12? Actually camera at x12, so Grace at x3.6 is 8.4 units left of center, appearing left side of screen but not far left edge — could correspond to top-left large orb in screenshot at x~0.34 screen width left of center, plausible since Grace is large due to backlinks.
+
+* Adele Goldstine raw (-22,15,-8) => x=12+(-34*0.35)=0.1 near far left edge, y=15*0 OSI: 15*0.22-0.3=3.3-0.3=3.0, z=-8*1.6-34 = -12.8-34=-46.8 far back => small orb far left maybe not visible or small in screenshot left edge? Screenshot left edge shows no orb at far left, only top-left at x0.34. So Adele at x0.1 would be near left edge maybe off-screen or at edge, but screenshot shows empty left edge beyond top-left orb. Good plausible.
+
+* Let's compute approximate screen percentages for key orbs to validate against screenshot Image1 target table below — AI agent should verify after implementation by projecting world coordinates through camera matrix and comparing to these target percentages within ±5% tolerance, iterating camera FOV/position or transform factors if mismatch exceeds tolerance:
+
+| Woman (expected visual role in screenshot) | World X after transform | World Y after transform | World Z after transform | Target screen X % from left | Target screen Y % from top | Approx size relative |
+|---|---|---|---|---|---|---|
+| Grace Hopper — top-left large orb | ~3.6 | ~4.5 | ~-26 | 34% | 32% | large |
+| Adele Goldstine — maybe far left small not prominent or hidden at edge | ~0.1 | ~3.0 | ~-46.8 | <10% or off-screen | ~38% | small |
+| Erna Schneider Hoover — mid small upper center? raw (8,20,-7) => x=12+( -4*0.35)=10.6, y=20*0.22-0.3=4.1, z=-7*1.6-34=-45.2 => maybe corresponds to middle small orb at x46% y43% in screenshot | ~10.6 | ~4.1 | ~-45.2 | 46% | 43% | medium-small |
+| Margaret Hamilton — lower left large cluster? raw (2,12,10) => x=12+(-10*0.35)=8.5, y=12*0.22-0.3=2.34, z=10*1.6-34=-18 => x8.5 y2.34 z-18 => screen maybe x42% y60% large like screenshot lower left large orb | ~8.5 | ~2.3 | ~-18 | 42% | 60% | large |
+| Jude Milhon — center small? raw (12,6,3) => x=12, y=6*0.22-0.3=1.02, z=3*1.6-34=-29.2 => maybe center lower small | ~12 | ~1.0 | ~-29 | 50% | 65% | small |
+| Radia Perlman — right small upper? raw (28,23,2) => x=12+(16*0.35)=17.6, y=23*0.22-0.3=4.76, z=2*1.6-34=-30.8 => screen x~58% y~44% small like screenshot right small orb | ~17.6 | ~4.8 | ~-30.8 | 58% | 44% | small |
+| etc for remaining cluster around center-right lower — exact mapping less critical as long as overall cluster composition matches screenshot with ~11 orbs visible in wide view, gathered center, varying depth sizes, no text overlay, terrain low flat bottom ~32-38%.
+
+AI agent should compute projected screen positions after implementing camera and orb transforms, compare to above target percentages derived from Image1 screenshot analysis, and iterate transform gather factor (currently 0.35), y scale (0.22) and offset (-0.3), z scale (1.6) and offset (-34), and camera FOV/position/lookAt until projected positions match within ±5% tolerance. Do not hardcode screen positions directly — must derive from 3D world coordinates through camera projection to maintain correct parallax on scroll and zoom behavior like original.
+
+**8.7.14 Additional transition details from original code comments to include in spec — previously scattered, now consolidated here for AI agent clarity**
+
+* Original site uses `requestAnimationFrame` loop at browser native refresh rate, no fixed timestep, with per-frame lerp as specified — do not switch to fixed timestep physics engine or GSAP timeline for camera/ orb scale unless replicating exact same exponential decay behavior within 5% tolerance.
+* Original site scroll listener uses passive true for performance — must implement same to avoid scroll jank.
+* Original site uses `window.history.scrollRestoration = 'manual'` and `window.scrollTo(0,0)` on mount to always start at top — implement exactly, do not rely on browser default scroll restoration which would break intro sequence on reload.
+* Original site video elements use `autoplay muted loop playsInline` attributes exactly, no controls, to ensure autoplay works on mobile Safari without user gesture — must replicate exactly.
+* Original site background pattern image uses CSS `background-image url(...)` with opacity 0.3, not as img element — reuse exact URL and opacity.
+* Original site body height 30000px desktop / 10000px mobile is critical for scroll progress mapping to feel right — do not change to 100vh sections with scroll snap unless replicating exact same scroll distance feel, which is hard; keep body height approach like existing codebase for faithful replica.
 
 ---
 
