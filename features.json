@@ -1,0 +1,40 @@
+{
+  "site": "sulattphone-webcraft-oneamongstmany",
+  "rubrics": [
+    {
+      "id": 1,
+      "name": "Dot field visualization with highlighted woman",
+      "type": "design",
+      "priority": "must-have",
+      "description": "A canvas renders 2,000-5,000 small dots representing people in computing, with one dot highlighted at a time (larger, brighter, with glow). The highlighted dot corresponds to the current woman in the dataset. Dots have subtle parallax on scroll for depth."
+    },
+    {
+      "id": 2,
+      "name": "Long-scroll story progression",
+      "type": "CUJ",
+      "priority": "must-have",
+      "description": "The page is 30,000px tall on desktop (10,000px mobile). As the user scrolls, the highlighted dot smoothly transitions to the next woman and the text overlay crossfades to her story. Each woman occupies ~1,200px of scroll space. Progress indicator shows current position (e.g., '3 of 24')."
+    },
+    {
+      "id": 3,
+      "name": "Text overlay with woman's story",
+      "type": "design",
+      "priority": "must-have",
+      "description": "Fixed-position text overlay shows the current woman's name (large heading), role/title (italic), and 2-3 sentence description of her contributions. Text crossfades over 0.6s with subtle slide animation when the woman changes. Content is semantic HTML for accessibility."
+    },
+    {
+      "id": 4,
+      "name": "Dark blue color scheme and Open Sans typography",
+      "type": "design",
+      "priority": "must-have",
+      "description": "Background is #0b1e38 (dark blue), text is #fffef5 (off-white). Open Sans font self-hosted (400, 400i, 700). The color scheme and typography match the original site, creating a cohesive, readable, and atmospheric experience."
+    },
+    {
+      "id": 5,
+      "name": "Responsive and performant",
+      "type": "CUJ",
+      "priority": "must-have",
+      "description": "On mobile (390×844), the page height reduces to 10,000px, dot count reduces to 2,000, and text overlay adapts to smaller viewport. The visualization maintains 60fps on modern devices. Reduced motion mode disables smooth transitions and parallax."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "components": {
+    "plugins": {
+      "team-aai": {
+        "installedAt": "2026-07-06T17:49:24.067Z",
+        "scope": "project",
+        "version": "20260702-101340",
+        "agents": [
+          "metacode"
+        ],
+        "agentOnly": true,
+        "bundleSpec": "team-aai@agent-market",
+        "isDep": true
+      },
+      "aai-web-design": {
+        "installedAt": "2026-07-06T17:49:24.073Z",
+        "scope": "project",
+        "version": "20260701-122924",
+        "agents": [
+          "metacode"
+        ],
+        "agentOnly": true,
+        "bundleSpec": "aai-web-design@agent-market",
+        "isDep": false
+      }
+    }
+  }
+}

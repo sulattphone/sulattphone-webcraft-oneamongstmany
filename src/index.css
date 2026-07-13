@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/opensans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/opensans-400i.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/opensans-700.woff2') format('woff2');
+}
+
+:root {
+  --color-bg: #0b1e38;
+  --color-text: #fffef5;
+  --color-dot: rgba(255, 254, 245, 0.3);
+  --color-highlight: #fffef5;
+  --color-accent: #e8a838;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  height: 30000px;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  body {
+    height: 10000px;
+    font-size: 14px;
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  cursor: pointer;
+}
+
+a:hover {
+  border-bottom: 1px dashed;
+}

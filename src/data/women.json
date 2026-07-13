@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Grace Hopper",
+    "role": "Computer Scientist, United States Navy",
+    "description": "Grace Hopper was a pioneer of computer programming who invented one of the first compiler related tools. She popularized the idea of machine-independent programming languages, which led to the development of COBOL, an early high-level programming language still in use today.",
+    "position": { "x": 0.23, "y": 0.41 },
+    "year": 1952
+  },
+  {
+    "name": "Ada Lovelace",
+    "role": "Mathematician",
+    "description": "Ada Lovelace is regarded as the first computer programmer. She wrote the first algorithm intended to be carried out by Charles Babbage's Analytical Engine, a general-purpose computer. Her notes contain what is recognized as the first algorithm designed for implementation on a computer.",
+    "position": { "x": 0.71, "y": 0.28 },
+    "year": 1843
+  },
+  {
+    "name": "Katherine Johnson",
+    "role": "NASA Mathematician",
+    "description": "Katherine Johnson's calculations of orbital mechanics as a NASA employee were critical to the success of the first and subsequent U.S. crewed spaceflights. Her work helped send astronauts to the Moon and bring them safely home.",
+    "position": { "x": 0.45, "y": 0.67 },
+    "year": 1962
+  },
+  {
+    "name": "Radia Perlman",
+    "role": "Network Engineer",
+    "description": "Radia Perlman is known as the 'Mother of the Internet' for her invention of the spanning-tree protocol (STP), which is fundamental to the operation of network bridges. Her work made it possible for Ethernet networks to scale to large sizes.",
+    "position": { "x": 0.82, "y": 0.53 },
+    "year": 1985
+  },
+  {
+    "name": "Hedy Lamarr",
+    "role": "Inventor, Actress",
+    "description": "Hedy Lamarr co-invented an early technique for spread spectrum communications and frequency hopping, necessary for wireless communication from the pre-computer age to the present. Her work laid the foundation for Wi-Fi, GPS, and Bluetooth.",
+    "position": { "x": 0.15, "y": 0.72 },
+    "year": 1942
+  },
+  {
+    "name": "Anita Borg",
+    "role": "Computer Scientist",
+    "description": "Anita Borg founded the Institute for Women and Technology and the Grace Hopper Celebration of Women in Computing. She was a fierce advocate for women in technology and believed that technology should be a positive force for social change.",
+    "position": { "x": 0.58, "y": 0.19 },
+    "year": 1994
+  },
+  {
+    "name": "Frances Allen",
+    "role": "Computer Scientist, IBM",
+    "description": "Frances Allen was the first woman to become an IBM Fellow and the first woman to win the Turing Award. Her work on compiler optimization helped make modern computing possible, and she mentored many women in the field.",
+    "position": { "x": 0.34, "y": 0.85 },
+    "year": 2006
+  },
+  {
+    "name": "Barbara Liskov",
+    "role": "Computer Scientist, MIT",
+    "description": "Barbara Liskov is one of the first women to be granted a doctorate in computer science in the United States. She developed the Liskov substitution principle and made fundamental contributions to programming languages and distributed systems.",
+    "position": { "x": 0.67, "y": 0.44 },
+    "year": 2008
+  },
+  {
+    "name": "Shafi Goldwasser",
+    "role": "Cryptographer, MIT",
+    "description": "Shafi Goldwasser is a two-time Gödel Prize winner for her research in cryptography and complexity theory. Her work on zero-knowledge proofs and probabilistic encryption has had a profound impact on modern cryptography.",
+    "position": { "x": 0.91, "y": 0.31 },
+    "year": 2012
+  },
+  {
+    "name": "Margaret Hamilton",
+    "role": "Software Engineer, NASA",
+    "description": "Margaret Hamilton led the team that developed the onboard flight software for NASA's Apollo missions. She coined the term 'software engineering' and her work was critical to the success of the Moon landing.",
+    "position": { "x": 0.28, "y": 0.56 },
+    "year": 1969
+  },
+  {
+    "name": "Jean Bartik",
+    "role": "Programmer, ENIAC",
+    "description": "Jean Bartik was one of the six original programmers of the ENIAC, the first general-purpose electronic digital computer. She and her colleagues programmed the ENIAC to calculate ballistic trajectories during World War II.",
+    "position": { "x": 0.76, "y": 0.78 },
+    "year": 1945
+  },
+  {
+    "name": "Grace Hopper",
+    "role": "Computer Scientist, United States Navy",
+    "description": "Grace Hopper was a pioneer of computer programming who invented one of the first compiler related tools. She popularized the idea of machine-independent programming languages, which led to the development of COBOL.",
+    "position": { "x": 0.12, "y": 0.35 },
+    "year": 1952
+  },
+  {
+    "name": "Ada King",
+    "role": "Countess of Lovelace",
+    "description": "Ada King, Countess of Lovelace, is regarded as the first computer programmer. She wrote the first algorithm intended for processing by a machine and recognized the potential of computers beyond mere calculation.",
+    "position": { "x": 0.53, "y": 0.92 },
+    "year": 1843
+  },
+  {
+    "name": "Katherine Johnson",
+    "role": "NASA Mathematician",
+    "description": "Katherine Johnson's calculations were critical to the success of early U.S. crewed spaceflights. She calculated trajectories for Alan Shepard, John Glenn, and the Apollo missions, helping to send astronauts to the Moon.",
+    "position": { "x": 0.88, "y": 0.15 },
+    "year": 1962
+  },
+  {
+    "name": "Radia Perlman",
+    "role": "Network Engineer",
+    "description": "Radia Perlman's spanning-tree protocol made it possible for Ethernet networks to scale. She has made many contributions to network design and is an advocate for simplicity in engineering.",
+    "position": { "x": 0.41, "y": 0.23 },
+    "year": 1985
+  },
+  {
+    "name": "Hedy Lamarr",
+    "role": "Inventor",
+    "description": "Hedy Lamarr's frequency hopping invention laid the groundwork for modern wireless communications. Her work was decades ahead of its time and is now fundamental to Wi-Fi, Bluetooth, and GPS technology.",
+    "position": { "x": 0.64, "y": 0.61 },
+    "year": 1942
+  },
+  {
+    "name": "Anita Borg",
+    "role": "Computer Scientist",
+    "description": "Anita Borg believed technology should be a positive force for social change. She founded the Grace Hopper Celebration, now the world's largest gathering of women in computing, and fought for greater representation in tech.",
+    "position": { "x": 0.19, "y": 0.88 },
+    "year": 1994
+  },
+  {
+    "name": "Frances Allen",
+    "role": "IBM Fellow",
+    "description": "Frances Allen's work on compiler optimization transformed the field. She was the first woman to become an IBM Fellow and the first woman to win the Turing Award, computing's highest honor.",
+    "position": { "x": 0.77, "y": 0.07 },
+    "year": 2006
+  },
+  {
+    "name": "Barbara Liskov",
+    "role": "MIT Professor",
+    "description": "Barbara Liskov's Liskov substitution principle is a fundamental concept in object-oriented programming. She has made lasting contributions to programming languages, distributed systems, and software design.",
+    "position": { "x": 0.32, "y": 0.14 },
+    "year": 2008
+  },
+  {
+    "name": "Shafi Goldwasser",
+    "role": "Cryptographer",
+    "description": "Shafi Goldwasser's research in cryptography has shaped the modern internet. Her work on zero-knowledge proofs allows one party to prove knowledge of a secret without revealing the secret itself.",
+    "position": { "x": 0.55, "y": 0.38 },
+    "year": 2012
+  }
+]
