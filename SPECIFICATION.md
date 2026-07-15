@@ -6,7 +6,7 @@ This document describes the original site implementation in detail for faithful 
 
 ## 1. Project Overview and Goals
 
-Replicate oneamongstmany.com — an interactive scrollytelling experience honoring 17 women in computing history. Users scroll through an intro narrative, then enter a 3D star field visualization where glowing orbs represent each woman. Scrolling moves camera smoothly between orbs, zooming in to reveal story text inside the highlighted orb.
+Replicate oneamongstmany.com — an interactive scrollytelling experience honoring 18 women in computing history. Users scroll through an intro narrative, then enter a 3D star field visualization where glowing orbs represent each woman. Scrolling moves camera smoothly between orbs, zooming in to reveal story text inside the highlighted orb.
 
 The replica must match the reference screenshot `screenshots/visualization_screen_landing.png` for wide landing view: dark navy sky, subtle stars, low flat low-poly terrain bottom ~32-38% height, ~11 warm golden orbs clustered center with varying depth, no text overlay. And match video `screenshots/Floating_orbs_animation.mov` frames 1-5 for orb animation behavior: 4 circles per orb drifting constrained, text fades in only at full zoom.
 
@@ -143,12 +143,12 @@ Reuse these exact hex colors, font sizes, spacing, border widths — do not appr
 
 | # | Name | year | backlinks | position.x | position.y | position.z |
 |---|---|---|---|---|---|---|
-| 0 | Adele Goldstine | 1944 | 12 | -22 | 15 | -8 |
+| 0 | Adele Goldstine | 1944 | 246 | -22 | 15 | -8 |
 | 1 | Barbara Paulson | 1948 | 17 | -18 | 5 | 12 |
 | 2 | Kathleen Booth | 1949 | 39 | -15 | 7 | -12 |
 | 3 | Grace Hopper | 1949 | 1257 | -12 | 22 | 5 |
 | 4 | Katherine Johnson | 1958 | 484 | -5 | 18 | -3 |
-| 5 | Margaret Hamilton | 1965 | 634 | 2 | 12 | 10 |
+| 5 | Margaret Hamilton | 1965 | 104 | 2 | 12 | 10 |
 | 6 | Erna Schneider Hoover | 1971 | 1145 | 8 | 20 | -7 |
 | 7 | Jude Milhon | 1973 | 28 | 12 | 6 | 3 |
 | 8 | Carol Shaw | 1980 | 16 | 18 | 4 | -10 |
@@ -527,26 +527,26 @@ These 18 entries are verbatim from original site per codebase comments referenci
 
 | # | Name | year | backlinks | position.x | position.y | position.z |
 |---|---|---|---|---|---|---|
-| 0 | Adele Goldstine | 1944 | 12 | -22 | 15 | -8 |
+| 0 | Adele Goldstine | 1944 | 246 | -22 | 15 | -8 |
 | 1 | Barbara Paulson | 1948 | 17 | -18 | 5 | 12 |
 | 2 | Kathleen Booth | 1949 | 39 | -15 | 7 | -12 |
 | 3 | Grace Hopper | 1949 | 1257 | -12 | 22 | 5 |
 | 4 | Katherine Johnson | 1958 | 484 | -5 | 18 | -3 |
-| 5 | Margaret Hamilton | 1965 | 634 | 2 | 12 | 10 |
+| 5 | Margaret Hamilton | 1965 | 104 | 2 | 12 | 10 |
 | 6 | Erna Schneider Hoover | 1971 | 1145 | 8 | 20 | -7 |
 | 7 | Jude Milhon | 1973 | 28 | 12 | 6 | 3 |
 | 8 | Carol Shaw | 1980 | 16 | 18 | 4 | -10 |
-| 9 | Roberta Williams | 1980 | 135 | 20 | 14 | 7 |
-| 10 | Susan Kare | 1983 | 22 | 25 | 11 | -4 |
-| 11 | Radia Perlman | 1985 | 296 | 28 | 23 | 2 |
-| 12 | Frances Allen | 1989 | 31 | 35 | 8 | -9 |
-| 13 | Anita Borg | 1994 | 45 | 38 | 16 | 6 |
-| 14 | Barbara Liskov | 2008 | 52 | 42 | 9 | -5 |
-| 15 | Shafi Goldwasser | 2012 | 38 | 45 | 19 | 4 |
-| 16 | Hedy Lamarr | 1941 | 892 | 48 | 13 | -11 |
-| 17 | Ada Lovelace | 1843 | 2105 | -8 | 25 | 8 |
+| 9 | Roberta Williams | 1980 | 194 | 20 | 14 | 7 |
+| 10 | Susan Kare | 1984 | 153 | 25 | 11 | -4 |
+| 11 | Radia Perlman | 1985 | 1242 | 28 | 23 | 2 |
+| 12 | Jaime Levy | 1990 | 19 | 32 | 5 | 9 |
+| 13 | Nancy Hafkin | 1990 | 87 | 34 | 9 | -6 |
+| 14 | Hu Qiheng | 1994 | 86 | 38 | 10 | 4 |
+| 15 | Lucy Sanders | 2004 | 19 | 42 | 6 | -8 |
+| 16 | Mary Lou Jepsen | 2005 | 49 | 44 | 8 | 6 |
+| 17 | Coraline Ada Ehmke | 2014 | 29 | 48 | 7 | -2 |
 
-*Note: original PRD mentions 17 women but actual data files contain 18 unique entries in women3d.ts (and 20 with duplicates in women.json). Use women3d.ts 18 entries as authoritative source for 3D visualization to match current replica implementation.*
+*Note: original PRD mentions 17 women historically but actual data files contain 18 unique entries in women3d.ts (and 20 with duplicates in women.json). Use women3d.ts 18 entries as authoritative source for 3D visualization to match current replica implementation.*
 
 These world coordinates are in arbitrary Three.js units relative to scene origin (0,0,0). Original site camera at (0,0,10) looking at (0,0,-60) would frame these positions with X spanning left to right across view frustum, Y determining vertical height above horizon, Z determining depth into screen away from camera.
 
@@ -632,7 +632,7 @@ Encourage AI agent to reuse these exact hex values, not approximate with similar
 
 ## 11. Scroll and Interaction Details
 
-* Body height 30000px desktop, 10000px mobile creates long scroll runway — essential for smooth scroll progress mapping to 17 women.
+* Body height 30000px desktop, 10000px mobile creates long scroll runway — essential for smooth scroll progress mapping to 18 women.
 * Scroll behavior smooth via CSS html scroll-behavior smooth, but JavaScript scroll listener drives all animations, not CSS scroll snap.
 * On window scroll event (passive true), update all opacity states and currentIndex as per section 8.2 exact formulas with timelineProgress curves to avoid gaps between intro screens.
 * On window resize, update camera aspect and renderer size.
@@ -679,7 +679,7 @@ After implementing, review against original reference materials with extra scrut
 * **Video frames 1-5 orb animation comparison:** each orb must show 4 overlapping circles of distinct warm colors drifting independently within constrained radius, not static concentric rings and not pure white. Colors must read as warm golden #ffe8a0 to #e6a040 range, not white #ffffff dominant like Image2 issue. On scroll, camera must zoom smoothly into first orb over ~800ms, then text fades in only at full zoom — not before.
 * **Close-up orb with text comparison to video frame 5:** orb should fill ~55-60% screen height centered, background radial gradient #fff8e7 to #ffbf6b exactly, text inside with year top underlined, name large bold, fields italic, summary paragraph, read more link underlined. Colors #1a0f08 text on warm background, matching video frame.
 * **Scroll behavior:** intro must span exactly 4 viewport heights with smooth fade transitions between first screen (title + fancy video), second screen (legend text + timelapse video), then third visualization screen fading in at 82% intro progress with no gap or skip. Test by slow scrolling — should see clear second screen fully opaque between first and third, not jump-cut.
-* **Performance:** 17 orbs × 4 circles = 68 meshes animating at 60fps should be smooth on typical laptop GPU. If frame drops, reduce sphere geometry segments from 32 to 24 but keep visual quality.
+* **Performance:** 18 orbs × 4 circles = 68 meshes animating at 60fps should be smooth on typical laptop GPU. If frame drops, reduce sphere geometry segments from 32 to 24 but keep visual quality.
 
 If any mismatch found during reviewer pass, adjust camera FOV, position, lookAt, orb y scaling factor, x gather factor, terrain amplitude, or orb colors opacities iteratively until visual matches reference screenshot and video frames within 5% tolerance on colors (use exact hex), positions (within ~5% screen coordinates), and timing (within 100ms).
 
