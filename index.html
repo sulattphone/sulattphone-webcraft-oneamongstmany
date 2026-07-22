@@ -5,6 +5,21 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>One Amongst Many</title>
+    <style>body{margin:0;height:30000px;background:#0b1e38}</style>
+    <script>
+      // Auto-scroll for screenshot verification (?viz=12) - immediate + delayed for headless chrome
+      try {
+        var p = new URLSearchParams(window.location.search);
+        if (p.has('viz')) {
+          var vh = parseFloat(p.get('viz')||'12');
+          var scrollFn = function(){ window.scrollTo(0, window.innerHeight * vh); };
+          scrollFn();
+          setTimeout(scrollFn, 100);
+          setTimeout(scrollFn, 500);
+          setTimeout(scrollFn, 1000);
+        }
+      } catch(e){}
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,6 +1,6 @@
 # Setup & Deployment — One Amongst Many
 
-A scroll-driven data visualization of women in computing, built for the Web Craft track. **Self-contained**: procedural Canvas dot field, no external assets, no backend services.
+A scroll-driven data visualization of women in computing, built for the Web Craft track. **Self-contained**: Three.js procedural terrain + glowing orbs, no external assets, no backend services. Faithful replica of oneamongstmany.com.
 
 ## Prerequisites
 - Node.js >= 18
@@ -24,7 +24,7 @@ npm test         # Vitest (placeholder — visual experience, minimal unit tests
 ```
 
 ## Tech stack
-React 18 + Vite 5 + TypeScript, HTML Canvas 2D for the dot field visualization, native scroll handling with requestAnimationFrame, CSS Modules with custom properties for styling.
+React 18 + Vite 5 + TypeScript, Three.js for 3D terrain + orb field visualization (procedural low-poly hills, star field, 18 glowing orbs with 4-layer warm golden glow), native scroll handling with requestAnimationFrame, CSS Modules with custom properties for styling. Fully self-contained - no external video or image CDN dependencies.
 
 ## Environment variables
 **None.** The site is fully static with no API keys or services. (`.env.example` is a placeholder only.)
@@ -33,22 +33,25 @@ React 18 + Vite 5 + TypeScript, HTML Canvas 2D for the dot field visualization, 
 - `/` — Single-page scroll experience (30,000px desktop, 10,000px mobile): Dot field visualization with highlighted woman, text overlay with her story, progress indicator. Scroll to progress through 20 women in computing history.
 
 ## Assets
-**All visuals are procedural — no external images:**
-- **Visualization:** HTML Canvas 2D rendering 2,000-5,000 dots (depending on viewport) with one highlighted at a time. Dots have subtle parallax on scroll for depth.
+**All visuals are procedural — no external images or videos (self-contained):**
+- **Visualization:** Three.js WebGL - low-poly terrain (220 size, 72 segments with procedural height), 650 star particles, 18 glowing orbs (each 4 spheres with warm golden palette #ffe8a0, #ffcc66, #ffb84d, #e6a040) positioned via actual coordinates from original site. Camera zooms from wide landscape to close-up per scroll.
+- **Intro:** Self-contained CSS radial gradients + procedural star noise replaces original external mp4 videos (fancy_reduced.mp4, timelapse_reduced.mp4) and bg-pattern.png - no runtime external requests.
 - **Fonts:** Open Sans (400, 400 italic, 700) self-hosted as woff2 in `public/fonts/`. No external font requests.
-- **Data:** `src/data/women.json` with 20 women in computing, each with name, role, description, and position in the dot field.
-- **Images/Videos:** None — all visuals are Canvas or CSS.
+- **Data:** `src/data/women3d.ts` with 18 women in computing (actual original site coordinates), each with name, year, fields, shortSummary, url, backlinks, and 3D position.
+- **Images/Videos:** None external — all visuals are WebGL or CSS procedural. Screenshots are actual captures from localhost.
 
-## Replication notes
-- **Dot field:** 5,000 dots on desktop (2,000 on mobile) scattered randomly across the viewport. Each dot represents a person in computing. One dot at a time is highlighted — larger (7px vs 2.5px), full opacity, bright color (#fffef5), with glow effect and outer ring.
-- **Scroll mapping:** Page height is 30,000px on desktop (10,000px on mobile). Scroll position maps to a specific woman in the dataset (20 women, each occupies ~1,500px desktop / 500px mobile). The highlighted dot smoothly transitions to the new position over 0.8s with ease-out.
-- **Text overlay:** Fixed-position overlay shows current woman's name (large heading), role/title (italic), 2-3 sentence description, and progress indicator (e.g., "3 of 20"). Text crossfades over 0.6s with subtle slide animation when the woman changes.
-- **Parallax:** Dot field has subtle parallax on scroll — dots move at slightly different speeds based on their "depth" value to create a sense of dimensionality.
-- **Color scheme:** Background #0b1e38 (dark blue), text #fffef5 (off-white), dots rgba(255, 254, 245, 0.3) by default, highlighted dot #fffef5 with glow.
-- **Responsive:** Body height reduces to 10,000px on mobile (320-480px). Dot count reduces to 2,000. Text overlay adapts to smaller viewport with reduced font sizes. No horizontal overflow.
-- **Reduced motion:** `prefers-reduced-motion: reduce` disables smooth dot transitions (instant instead), disables parallax, and cuts text changes instead of crossfade.
-- **Performance:** Dot count capped at 5,000; uses requestAnimationFrame for smooth 60fps rendering; scroll handler is passive; uses transform/opacity only for animations.
-- **Accessibility:** Semantic HTML with proper heading hierarchy (h1 for title, h2 for woman name, h3 for role). Canvas has aria-label describing the visualization. Keyboard scrollable. Color contrast exceeds WCAG AAA. Respects reduced motion preference.
+## Replication notes - Faithful to oneamongstmany.com
+- **3D Terrain:** Procedural PlaneGeometry 220x220, 72 segments, height function with sin/cos waves + noise for low rolling hills (amplitude ~2.9, 2.05, 1.38). Color #2c445f muted dark slate blue matching screenshot. Wireframe overlay at 0.14 opacity for low-poly facet emphasis. Position y -6.8, z -6.2 to push horizon to ~28% from bottom.
+- **Orbs:** 18 women from original site, each orb = 4 concentric spheres with warm palette (core #ffe8a0 0.78, mid #ffcc66 0.68, #ffb84d 0.58, outer #e6a040 0.48) - NOT white washout. Size based on backlinks (0.4-1.0). Position scaled: x gathered 0.35 toward center 12, y 0.22 scale -0.3 offset to lower near horizon, z x1.6 -34 for depth. Floating via sin elapsedTime 0.18. Highlighted scales to 3.2x with intense golden glow.
+- **Camera:** Landing view at (12, 0.3, 34) looking at (12, 1.8, -26) - low near terrain, hills prominent, orbs lower gathered center, no terrain ends visible (FOV 32). On scroll, lerps to highlighted orb at +22z with lookAt y-3.5 for downward horizon.
+- **Stars:** 650 points, soft white texture via radial gradient canvas, size 1.35, opacity 0.62, AdditiveBlending, distributed 520x110x360.
+- **Scroll mapping:** Body 30,000px desktop / 10,000px mobile. Intro spans 4 viewport heights: scrollOpacity fades 0-0.9, fancy 0-1 visible then 1-1.4 fade, legend 0.8-1.3 fade in, 1.3-2.2 hold, 2.2-2.9 fade out (ensures 2nd screen clearly visible, no skip to 3rd). Visualization starts at 0.82*introHeight. First 8% shows wide field no highlighted orb (matching Image1 screenshot). After threshold, progress maps to woman index.
+- **Text overlay:** Orb info fixed center 50%/50% with radial gradient #fff8e7 to #ffbf6b, 70px 45px padding, border-radius 50%, glow shadows. Year with border-bottom, name clamp 1.5-2.3rem 700, fields italic, summary 0.84rem, read more link. Progress indicator bottom center "X of 18" with backdrop blur. Crossfade via keyframes fadeSlideIn.
+- **Color scheme:** Background #0b1e38 dark blue per PRD, text #fffef5 off-white, sky #1e2e4a, terrain #2c445f.
+- **Responsive:** Mobile 390px body 10,000px, subsection width calc(100%-40px), orbInfo max-width 100%-40px padding 20px, font scales down.
+- **Reduced motion:** CSS disables animations for arrow, orbInfo, stars, transitions. JS could be extended to instant lerp.
+- **Performance:** Three.js with 18 orbs *4 spheres = 72 meshes + 1 terrain 72 seg + 650 star points. requestAnimationFrame, passive scroll, GPU transform.
+- **Accessibility:** Semantic h1 for title, h2 for woman name, canvas aria-label + role img, keyboard scrollable, color contrast AAA, lang en, progress aria-live polite.
 
 ## Narration / Walkthrough Video
 Narrated screen-recording walkthrough, uploaded to pxl.cl per Web Craft submission requirements.
