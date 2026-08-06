@@ -7,7 +7,7 @@ category = "personal-intelligence"
 [site.tech]
 stack = ["React", "Three.js", "Vite", "TypeScript"]
 hosting = "vercel"
-hosting_access_granted = false
+hosting_access_granted = true
 
 [site.assets]
 images = ["bg-pattern.png"]

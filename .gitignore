@@ -25,3 +25,8 @@ dist-ssr
 
 # Vercel
 .vercel
+.env*
+
+# Web Craft PRD scaffold traces (working files, not deliverables)
+.prd-scaffold-runs/
+.prd-validation-runs/

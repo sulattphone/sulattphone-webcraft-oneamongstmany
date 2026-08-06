@@ -1,29 +1,47 @@
 # One Amongst Many — Web Craft Submission
 
-A scroll-driven journey through fragmented memory. An interactive single-page experience combining 3D WebGL (Three.js), scroll-linked animations (GSAP ScrollTrigger), and atmospheric storytelling.
+A scroll-driven tribute to women in computing. Single-page experience combining atmospheric video backgrounds, a Three.js WebGL landscape with floating golden orbs, and scroll-linked camera travel that dwells at each woman's story.
+
+Live: **https://sulattphone-webcraft-oneamongstmany.vercel.app** (AAI team `aai-webcraft/sulattphone-webcraft-oneamongstmany`)
 
 ## Quick Start
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
+npm run build    # tsc && vite build -> dist/
+npm run preview  # http://localhost:4173
 ```
 
 ## Required Files
 
-- `site.toml` — Submission manifest
-- `PRD.md` — Product requirements document
-- `SETUP.md` — Setup & deployment instructions
-- `.env.example` — Environment variable placeholders (none required)
-- `screenshots/` — Desktop (1440×900) and mobile (390×844) screenshots
-- `features.json` — Five key features with rubrics
+- `site.toml` — Submission manifest (url, stack, assets, screenshots, hosting_access_granted=true)
+- `PRD.md` — Product requirements document (validated PASS R1-R6 / W1-W4)
+- `SETUP.md` — Setup & deployment instructions (includes prod URL and pending walkthrough note)
+- `.env.example` — Placeholder (no env vars required, static frontend)
+- `screenshots/` — Desktop 1440×900 `home-desktop.png` and Mobile 390×844 `home-mobile.png`
+- `features.json` — Five key rubrics: long-scroll progression, 3D space with floating orbs, scroll camera journey, orb story overlay, atmospheric intro/outro
 
 ## Tech Stack
 
-- React 18 + Vite 5 + TypeScript
-- Three.js via @react-three/fiber, drei, postprocessing
-- GSAP 3.12 with ScrollTrigger for scroll animations
-- CSS Modules + custom properties
+- React 18 + Vite 5 + TypeScript (`tsc && vite build`)
+- Three.js 0.160 for 3D terrain, sky gradient sphere, star field, 18 billboard orbs with warm golden glow (#ffe8a0, #ffcc66, #ffb84d, #e6a040)
+- GSAP 3.12 for scroll-scrubbed camera timeline (no ScrollTrigger, custom seek)
+- CSS Modules (`Home.module.css`) + global custom properties (`index.css`)
+- Self-hosted Open Sans 400, 400i, 700 in `/public/fonts/` (woff2)
+- Assets from `/public`: `images/bg-pattern.png` (0.3 overlay), `videos/fancy_reduced.mp4` + `timelapse_reduced.mp4` (intro crossfade), fonts above
+- No backend, fully static
+
+## Deployment
+
+Deployed to **AAI Web Craft** team via Vercel CLI:
+
+- Project: `aai-webcraft/sulattphone-webcraft-oneamongstmany` (`prj_5EuOFk8BhYdJq64urDCZRaGMzsQj`)
+- Production: `https://sulattphone-webcraft-oneamongstmany.vercel.app`
+- Build: `added 139 packages, 42 modules transformed, 2.51s`, output `711KB / 205KB gzip`
+- Build fix: added missing `gsap` and `@vitejs/plugin-react` to `package.json`
+
+See `SETUP.md` for full local, build, and Vercel steps and walkthrough video placeholder.
 
 ## Full Guide
 

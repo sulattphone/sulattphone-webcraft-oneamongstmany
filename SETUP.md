@@ -1,72 +1,120 @@
 # Setup & Deployment — One Amongst Many
 
-A scroll-driven data visualization of women in computing, built for the Web Craft track. **Self-contained**: Three.js procedural terrain + glowing orbs, no external assets, no backend services. Faithful replica of oneamongstmany.com.
+Scroll-driven tribute to 18 women in computing: intro narrative with atmospheric videos → 3D landscape (Three.js) → scroll-driven camera travel through floating golden orbs → story overlay per woman → outro with video and credits.
 
 ## Prerequisites
-- Node.js >= 18
-- npm (lockfile is `package-lock.json`)
+- Node.js >= 18, npm
+- Vercel CLI (`npm i -g vercel`) logged into `aai-webcraft` team
+- No env vars required (static)
 
 ## Local development
 ```bash
 npm install
-npm run dev      # Vite dev server at http://localhost:5173
+npm run dev      # http://localhost:5173
 ```
+
+- Auto-scroll helper for screenshots: `http://localhost:5173/?viz=12` scrolls to `vh*12` immediately (see `index.html` script)
 
 ## Production build
 ```bash
-npm run build    # tsc + vite build -> dist/
-npm run preview  # serve the production build locally at http://localhost:4173
+npm run build    # tsc && vite build -> dist/ (1.06kB html, 5.49kB css, 711KB js / 205KB gzip, 42 modules)
+npm run preview  # http://localhost:4173 serves dist/
 ```
+
+Vercel build mirrors this: `install -> added 139 packages -> npm run build`.
+
+## Tech stack (actual)
+- React 18.2.0 + react-dom 18.2.0 + react-router-dom 6.20.0
+- three 0.160.0 (PlaneGeometry terrain 220x220 72 segs, 480 star discs, 18 orb billboards 1.25 with 4-7 warm circles #ffe8a0 0.78 #ffcc66 0.68 #ffb84d 0.58 #e6a040 0.48 screen blend, 3 alpha passes)
+- gsap 3.12.0 (paused timeline, each orb 2 units move+hold, final pullback 2, scrub via seek by scroll progress)
+- Vite 5.0.0 + @vitejs/plugin-react 4.3.0 + TypeScript 5.6 + @types packages
+- CSS Modules + custom properties, Open Sans self-hosted woff2, no external CDNs
+
+## Routes
+- `/` — Single page long scroll:
+  - Body height 50000px desktop / 25000px mobile (320-480px) for pacing
+  - Intro 10 viewports: title `One Amongst Many`, byline links cdacanay.com / tina.pizza / sxywu.com, two editorial paragraphs + legend paragraph, bounce cue `⌄`, videos `/videos/fancy_reduced.mp4` (first screen) and `/videos/timelapse_reduced.mp4` (second), pattern `/images/bg-pattern.png` 0.3 overlay, crossfade timeline 0-3 (first out 0-0.9, second in 0.8-1.3 hold 1.3-2.2 out 2.2-2.9, whole layer out 2.2-3)
+  - Visualization: canvas fixed 100vw/100vh z1, sky gradient #192e4c zenith → #345488 horizon via #1e3558 40% #2a446e 70%, terrain #213344 with wireframe #3a556f 0.14, 480 stars #FFFEF5 Gaussian, 18 orbs clustered tightly, bob sin 0.35 vert 0.22 horiz
+  - Story overlay: centered card max 340px color #0b1e38 glow text-shadow, year 1.25em 700 bordered, name clamp 1.5rem-2.3rem 700, fields 0.85rem italic 0.9, summary 1.6, read more → Wikipedia new tab, appears per orb local 0.5-1.9 fadeSlideIn -45%→-50% 0.6-0.9s ease-out, progress pill `X of 18` fixed bottom 24px left 50% -50% bg rgba(11,30,56,0.6) blur 8px, aria-live polite
+  - Outro: fixed 50vh/50vw -50%/-50% min-content z20 after last orb +0.5 timeline 0.5 fade, YouTube iframe https://www.youtube.com/embed/bEM0CRdCrQo (854x480 desktop / 340x240 mobile), heading `Read more about One Amongst Many here:`, 3 credit links, footer `Made with love in Brooklyn, 2019.`
+
+## Assets (from /public)
+- `/fonts/opensans-400.woff2`, `opensans-400i.woff2`, `opensans-700.woff2` — @font-face swap
+- `/images/bg-pattern.png` — 0.3 opacity overlay over intro
+- `/videos/fancy_reduced.mp4` (1.8MB) + `/videos/timelapse_reduced.mp4` (3.2MB) — autoplay muted loop playsInline full-cover centered translate -50% -50% min 100vw/100vh pointer-events none 0.3s opacity ease, crossfaded by scroll
+- Data: `src/data/women3d.ts` 18 women (Adele Goldstine 1944 → Coraline Ada Ehmke 2014) with fields year, fields, shortSummary, url, backlinks, birthYear, references, position x,y,z, plus `women.json` legacy
+- No backend, no env vars
+
+## Accessibility
+- html lang en, h1 title, story name as heading, canvas role img aria-label `3D visualization of women in computing, showing glowing orbs... Scroll to explore`, progress aria-live polite, links border-bottom solid → dashed hover, focus visible, contrast #fffef5 on #192e4c AAA, videos decorative muted no captions needed, prefers-reduced-motion disables bounce + fadeSlideIn.
+
+## Deployment — Vercel (AAI project)
+
+**Project:** `aai-webcraft/sulattphone-webcraft-oneamongstmany`
+- Project ID `prj_5EuOFk8BhYdJq64urDCZRaGMzsQj`, org `team_cTx8vJkH2Yt4oQRCXiogNYAn`
+- Framework auto-detected `vite` (Build Command `vite build`, Output `dist`)
+
+**Prod URLs:**
+- `https://sulattphone-webcraft-oneamongstmany.vercel.app` (aliased, Ready)
+- `https://sulattphone-webcraft-oneamongstmany-aai-webcraft.vercel.app`
+- Example deployment `https://sulattphone-webcraft-oneamongstmany-f1pn6njj8-aai-webcraft.vercel.app` Ready dpl_AzyNsMzqS8BWSDDXAyRQhaqwgUco 18s build 13s, 139 packages
+
+**Deploy steps (used):**
+```bash
+vercel link --yes --project sulattphone-webcraft-oneamongstmany --scope aai-webcraft # detected Vite, created project, connected GitHub
+vercel deploy --prod --scope aai-webcraft --yes --force --logs
+# Build logs: Installing 139 packages, tsc && vite build, 42 modules, dist/assets/index-DPVH7jf5.js 711KB gzip 205KB, Build Completed [13s], Aliased ...vercel.app, Ready in 23s
+```
+
+**Fixes applied for Vercel build:**
+- Missing `gsap` (imported in Home.tsx but not in package.json) → added `gsap@^3.12.0` to dependencies (was failing `added 95 packages` exit 1/2)
+- Missing `@vitejs/plugin-react` (imported in vite.config.ts but not in devDeps) → added `^4.3.0` (was failing `failed to load config from vite.config.ts`, `ERR_MODULE_NOT_FOUND @vitejs/plugin-react`)
+
+**Firewall:**
+- API `security/firewall/config` currently `active null draft null versions []` (no custom rules). For Meta-restricted preview you would add `163.114.128.0/20` + `199.201.64.0/22` via `vercel firewall` dashboard, but final prod is public for review. `site.toml` `hosting_access_granted=true`.
+
+**site.toml manifest:**
+- name `sulattphone-webcraft-oneamongstmany`, url `https://sulattphone-webcraft-oneamongstmany.vercel.app`, category `personal-intelligence`, stack `React, Three.js, Vite, TypeScript`, hosting `vercel` granted true, assets images `bg-pattern.png` videos 2, fonts 3, screenshots home-desktop/mobile
+
+## Screenshots
+- `screenshots/home-desktop.png` — 1440×900 desktop (2.9MB) — updated Aug 6
+- `screenshots/home-mobile.png` — 390×844 mobile (723KB) — updated Aug 6
+- Extra dev screenshots removed for submission cleanliness
 
 ## Tests
 ```bash
-npm test         # Vitest (placeholder — visual experience, minimal unit tests)
+npm test  # Vitest placeholder, no meaningful unit tests for visual experience
 ```
 
-## Tech stack
-React 18 + Vite 5 + TypeScript, Three.js for 3D terrain + orb field visualization (procedural low-poly hills, star field, 18 glowing orbs with 4-layer warm golden glow), native scroll handling with requestAnimationFrame, CSS Modules with custom properties for styling. Fully self-contained - no external video or image CDN dependencies.
+## Narration / Walkthrough Video (pxl.cl)
 
-## Environment variables
-**None.** The site is fully static with no API keys or services. (`.env.example` is a placeholder only.)
+Narrated screen-recording walkthrough, per Web Craft submission requirements, uploaded to pxl.cl.
 
-## Routes
-- `/` — Single-page scroll experience (30,000px desktop, 10,000px mobile): Dot field visualization with highlighted woman, text overlay with her story, progress indicator. Scroll to progress through 20 women in computing history.
+- Main walkthrough: _Pending — user will provide pxl.cl link later_ — placeholder kept in SETUP, video not committed to repo
+- Expected content: scroll 0→10vh intro crossfade → 18 orbs camera travel → story cards → outro YouTube + credits
 
-## Assets
-**All visuals are procedural — no external images or videos (self-contained):**
-- **Visualization:** Three.js WebGL - low-poly terrain (220 size, 72 segments with procedural height), 650 star particles, 18 glowing orbs (each 4 spheres with warm golden palette #ffe8a0, #ffcc66, #ffb84d, #e6a040) positioned via actual coordinates from original site. Camera zooms from wide landscape to close-up per scroll.
-- **Intro:** Self-contained CSS radial gradients + procedural star noise replaces original external mp4 videos (fancy_reduced.mp4, timelapse_reduced.mp4) and bg-pattern.png - no runtime external requests.
-- **Fonts:** Open Sans (400, 400 italic, 700) self-hosted as woff2 in `public/fonts/`. No external font requests.
-- **Data:** `src/data/women3d.ts` with 18 women in computing (actual original site coordinates), each with name, year, fields, shortSummary, url, backlinks, and 3D position.
-- **Images/Videos:** None external — all visuals are WebGL or CSS procedural. Screenshots are actual captures from localhost.
+When you have the link, add it here as e.g. `https://pxl.cl/XXXX` and also update README if required by track rubric.
 
-## Replication notes - Faithful to oneamongstmany.com
-- **3D Terrain:** Procedural PlaneGeometry 220x220, 72 segments, height function with sin/cos waves + noise for low rolling hills (amplitude ~2.9, 2.05, 1.38). Color #2c445f muted dark slate blue matching screenshot. Wireframe overlay at 0.14 opacity for low-poly facet emphasis. Position y -6.8, z -6.2 to push horizon to ~28% from bottom.
-- **Orbs:** 18 women from original site, each orb = 4 concentric spheres with warm palette (core #ffe8a0 0.78, mid #ffcc66 0.68, #ffb84d 0.58, outer #e6a040 0.48) - NOT white washout. Size based on backlinks (0.4-1.0). Position scaled: x gathered 0.35 toward center 12, y 0.22 scale -0.3 offset to lower near horizon, z x1.6 -34 for depth. Floating via sin elapsedTime 0.18. Highlighted scales to 3.2x with intense golden glow.
-- **Camera:** Landing view at (12, 0.3, 34) looking at (12, 1.8, -26) - low near terrain, hills prominent, orbs lower gathered center, no terrain ends visible (FOV 32). On scroll, lerps to highlighted orb at +22z with lookAt y-3.5 for downward horizon.
-- **Stars:** 650 points, soft white texture via radial gradient canvas, size 1.35, opacity 0.62, AdditiveBlending, distributed 520x110x360.
-- **Scroll mapping:** Body 30,000px desktop / 10,000px mobile. Intro spans 4 viewport heights: scrollOpacity fades 0-0.9, fancy 0-1 visible then 1-1.4 fade, legend 0.8-1.3 fade in, 1.3-2.2 hold, 2.2-2.9 fade out (ensures 2nd screen clearly visible, no skip to 3rd). Visualization starts at 0.82*introHeight. First 8% shows wide field no highlighted orb (matching Image1 screenshot). After threshold, progress maps to woman index.
-- **Text overlay:** Orb info fixed center 50%/50% with radial gradient #fff8e7 to #ffbf6b, 70px 45px padding, border-radius 50%, glow shadows. Year with border-bottom, name clamp 1.5-2.3rem 700, fields italic, summary 0.84rem, read more link. Progress indicator bottom center "X of 18" with backdrop blur. Crossfade via keyframes fadeSlideIn.
-- **Color scheme:** Background #0b1e38 dark blue per PRD, text #fffef5 off-white, sky #1e2e4a, terrain #2c445f.
-- **Responsive:** Mobile 390px body 10,000px, subsection width calc(100%-40px), orbInfo max-width 100%-40px padding 20px, font scales down.
-- **Reduced motion:** CSS disables animations for arrow, orbInfo, stars, transitions. JS could be extended to instant lerp.
-- **Performance:** Three.js with 18 orbs *4 spheres = 72 meshes + 1 terrain 72 seg + 650 star points. requestAnimationFrame, passive scroll, GPU transform.
-- **Accessibility:** Semantic h1 for title, h2 for woman name, canvas aria-label + role img, keyboard scrollable, color contrast AAA, lang en, progress aria-live polite.
+## Validation
 
-## Narration / Walkthrough Video
-Narrated screen-recording walkthrough, uploaded to pxl.cl per Web Craft submission requirements.
+- `PRD.md` validated via `webcraft-prd-validate` skill:
+  - Run dir `.prd-validation-runs/sulattphone-webcraft-oneamongstmany/20260806-113134-2501021-29768/`
+  - `validation.json` contract OK, R1-R6 PASS, W1-W4 OK
+  - No replica/original-site, no implementation refs, scaffold structure intact
+- `features.json` 5 rubrics validated `json.tool`
+- Build `npm run build` passes locally and remotely
 
-- Main walkthrough: _Pending — will be recorded after deployment_
+## Submission checklist
 
-The video is **not committed to this repo** — it lives on pxl.cl; only the link above is tracked.
+- [x] `site.toml` hosting_access_granted true, url live
+- [x] `PRD.md` product-facing, no class names, PASS validation
+- [x] `SETUP.md` updated with actual build + deploy instructions (this file)
+- [x] `README.md` updated with actual tech stack and prod URL
+- [x] `features.json` 5 must-have rubrics matching implementation (including Long-scroll story progression)
+- [x] `screenshots/home-desktop.png` + `home-mobile.png` present (user uploaded)
+- [x] `public/` assets (fonts, pattern, 2 videos) used in product
+- [x] Deployed to AAI `aai-webcraft/sulattphone-webcraft-oneamongstmany` prod `https://sulattphone-webcraft-oneamongstmany.vercel.app` Ready, 200 OK
+- [x] `package.json` dependencies fixed and committed (gsap, @vitejs/plugin-react)
+- [ ] Walkthrough video pxl.cl link — _TODO user will provide later_
 
-## Deployment
-_Pending_ — deploy to Vercel with firewall restricting access to Meta IPs (`163.114.128.0/20`, `199.201.64.0/22`), then transfer project ownership to the AAI Web Craft team. The live URL and `hosting_access_granted` in `site.toml` will be updated after transfer.
-
-### Vercel deployment steps
-1. Push repo to GitHub under `codimango` org (private)
-2. Import project in Vercel, set framework to Vite
-3. Add firewall rules for Meta IPs
-4. Deploy and verify at the live URL
-5. Add `aai_webcraft@meta.com` as project owner
-6. Update `site.toml` with live URL and set `hosting_access_granted = true`
+After you provide pxl.cl link, add it above and re-push, then final submit via Web Craft portal.
