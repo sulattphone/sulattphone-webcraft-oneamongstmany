@@ -1,8 +1,9 @@
 [site]
 name = "sulattphone-webcraft-oneamongstmany"
 url = "https://sulattphone-webcraft-oneamongstmany.vercel.app"
+original_url = "https://oneamongstmany.com"
 description = "A faithful replication of oneamongstmany.com — scroll-driven data visualization with video backgrounds transitioning on scroll, 3D terrain and glowing orbs representing women in computing."
-category = "personal-intelligence"
+category = "replication"
 
 [site.tech]
 stack = ["React", "Three.js", "Vite", "TypeScript"]
@@ -10,8 +11,8 @@ hosting = "vercel"
 hosting_access_granted = true
 
 [site.assets]
-images = ["bg-pattern.png"]
-videos = ["fancy_reduced.mp4", "timelapse_reduced.mp4"]
+images = ["public/images/bg-pattern.png"]
+videos = ["public/videos/fancy_reduced.mp4", "public/videos/timelapse_reduced.mp4"]
 models_3d = []
 svgs = []
 fonts = ["Open Sans 400", "Open Sans 400i", "Open Sans 700"]
