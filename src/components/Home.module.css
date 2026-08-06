@@ -2,7 +2,6 @@
   position: relative;
 }
 
-/* Intro Section with Video Background - will-change for smooth crossfade to viz */
 .intro {
   position: fixed;
   top: 0;
@@ -52,7 +51,8 @@
   position: absolute;
   top: 40vh;
   left: 50vw;
-  width: 600px;
+  width: calc(100% - 40px);
+  max-width: 600px;
   transform: translate(-50%, -50%);
   text-align: justify;
   pointer-events: auto;
@@ -104,7 +104,6 @@
   100% { transform: translateY(0); }
 }
 
-/* Visualization Canvas - always behind intro, pre-rendered for smooth transition, no opacity toggle glitch */
 .canvas {
   position: fixed;
   inset: 0;
@@ -112,7 +111,6 @@
   height: 100vh;
   z-index: 1;
   will-change: transform;
-  /* No opacity transition - stays visible behind intro, intro fades over it */
 }
 
 .overlay {
@@ -123,7 +121,6 @@
   will-change: opacity;
 }
 
-/* Orb Text - black text fade-in in center of viewport, no background oval, per latest feedback */
 .orbText {
   position: fixed;
   top: 50%;
@@ -132,16 +129,14 @@
   text-align: center;
   max-width: 340px;
   pointer-events: auto;
-  animation: fadeSlideIn 0.9s ease-out; /* longer fade per original */
+  animation: fadeSlideIn 0.9s ease-out;
   color: #0b1e38;
   z-index: 20;
   background: none;
   padding: 24px;
-  /* Ensure text readable on dark sky without background? Original has light orb background, but per "no background" we use black text with slight shadow for readability */
   text-shadow: 0 0 12px rgba(255,254,245,0.6), 0 0 24px rgba(255,254,245,0.3);
 }
 
-/* Outro — original grace.css .outro */
 .outro {
   position: fixed;
   top: 50vh;
@@ -179,24 +174,6 @@
   border-bottom: 1px dashed;
 }
 
-/* Keep old orbInfo for reference but not used now - info on orbs themselves */
-.orbInfo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  max-width: 360px;
-  pointer-events: auto;
-  animation: fadeSlideIn 0.6s ease-out;
-  color: #1a0f08;
-  z-index: 20;
-  background: radial-gradient(circle, #fff8e7 0%, #ffe8b5 25%, #ffd08a 55%, #ffbf6b 75%);
-  padding: 70px 45px;
-  border-radius: 50%;
-  box-shadow: 0 0 80px 40px rgba(255, 200, 100, 0.3), 0 0 120px 60px rgba(255, 180, 80, 0.15);
-}
-
 .orbYear {
   font-size: 1.25em;
   font-weight: 700;
@@ -225,7 +202,6 @@
 }
 
 .orbSummary {
-  /* original: no custom class — inherits body 18px / weight 400 */
   line-height: 1.6;
   margin-bottom: 1.2rem;
   color: #0b1e38;
@@ -278,6 +254,39 @@
   pointer-events: none;
 }
 
+@media (min-width: 481px) and (max-width: 768px) {
+  .subsection {
+    top: 42vh;
+    left: 50vw;
+    width: calc(100% - 60px);
+    max-width: 600px;
+    transform: translate(-50%, -50%);
+    padding: 0 12px;
+  }
+
+  .orbText {
+    max-width: calc(100% - 60px);
+    padding: 20px;
+  }
+
+  .orbName {
+    font-size: 2rem;
+  }
+
+  .orbSummary {
+    font-size: 0.95rem;
+  }
+
+  .arrow {
+    bottom: 40px;
+  }
+
+  .outro {
+    width: calc(100% - 60px);
+    max-width: 640px;
+  }
+}
+
 @media (min-width: 320px) and (max-width: 480px) {
   .subsection {
     top: 45vh;
@@ -291,11 +300,6 @@
     bottom: 10px;
   }
 
-  .orbInfo {
-    max-width: calc(100% - 40px);
-    padding: 20px;
-  }
-
   .orbName {
     font-size: 1.75rem;
   }
@@ -306,20 +310,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .story {
-    animation: none;
-  }
-  
   .arrow,
-  .orbInfo {
+  .orbText {
     animation: none;
   }
-  
+
   .canvas,
   .overlay {
     transition: none;
   }
-  
+
   .subsection,
   .videos video {
     transition: none;

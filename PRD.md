@@ -62,10 +62,10 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 ### Layout and spacing
 - Single-column page with no header navigation.
 - Page scroll runway is very tall: approximately `50000px` on desktop and `25000px` on small viewports, creating distinct intro span of `10` viewports plus visualization span.
-- Fixed layers covering viewport: intro layer at `z-index 5`, visualization canvas at `z-index 1`, story overlay at `z-index 10`, outro at `z-index 20`, progress at `z-index 30`.
-- Content width: intro text block `600px` centered; story card max-width `340px` centered; outro uses `min-content` width centered.
+- Fixed layers covering viewport: intro layer at depth 5, visualization canvas at depth 1, story overlay at depth 10, outro at depth 20, progress at depth 30, ensuring intro sits above canvas and progress remains topmost.
+- Content width: intro text block max `600px` centered (fluid on tablet/mobile); story card max-width `340px` centered; outro uses `min-content` width centered.
 - Gutters: intro paragraphs have `1.5rem` bottom margin, line-height `2` with justified alignment.
-- Radii: progress pill `20px`, story card has no solid background but legacy circular treatment used `50%` radius when background present.
+- Radii: progress pill `20px`, story card uses soft glow without solid backing and no hard corner clipping.
 
 ### Visual components (product/UI building blocks)
 - **Intro text block:** Title, byline with author links, two to three paragraphs of editorial body.
@@ -79,12 +79,12 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 - **Outro panel:** Fixed center panel containing YouTube iframe embed and credit links.
 
 ### Motion language
-- **Global:** `html { scroll-behavior: smooth; }`
-- **Video crossfade:** Opacity transition `0.3s ease`.
-- **Story entrance:** Keyframes `fadeSlideIn` from `opacity 0` and `translate(-50%, -45%)` to `opacity 1` and `translate(-50%, -50%)`, duration `0.6s` to `0.9s`, timing `ease-out`, triggered anew each time the displayed woman changes.
-- **Bounce cue:** Keyframes bounce `0%: translateY(0)`, `50%: translateY(-20px)`, `100%: translateY(0)`, duration `1.5s`, `ease-in-out`, infinite.
-- **Camera travel:** Linear scrub of a timeline where each orb receives `2` units ( `1` move + `1` hold ). Final pullback after last orb lasts `2` units. Travel eases smoothly toward target with subtle lerp so motion feels continuous.
-- **Orb floating:** Gentle idle bob — vertical `sin` at `0.35` amplitude, horizontal `sin` at `0.22` amplitude, slow frequencies.
+- **Global:** Smooth scrolling enabled so anchor and programmatic scroll animate rather than jump.
+- **Video crossfade:** Opacity transition `0.3s ease` between atmospheric backgrounds.
+- **Story entrance:** Centered card enters from slight vertical offset with fade, from transparent and offset to opaque and centered, duration `0.6s` to `0.9s`, ease-out, triggered anew each time the displayed woman changes.
+- **Bounce cue:** Downward indicator bounces vertically, from rest to lifted and back, duration `1.5s`, ease-in-out, infinite, drawing attention to scroll.
+- **Camera travel:** Timeline scrub where each orb receives `2` units ( `1` move + `1` hold ). Final pullback after last orb lasts `2` units. Travel eases smoothly toward target with subtle interpolation so motion feels continuous.
+- **Orb floating:** Gentle idle bob — vertical amplitude `0.35`, horizontal `0.22`, slow frequencies, creating calm breathing.
 - **Circle drift:** Each of the inner circles drifts independently within its orb using slow pseudo-noise and circular motion, creating organic blob movement.
 
 ### Responsive system
@@ -97,10 +97,11 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 - **Touch target:** No small custom targets; native scroll and standard link hit areas.
 
 ### Image / media treatment
-- Video backgrounds fill viewport via minimum `100vw` width and `100vh` height, centered with `translate(-50%, -50%)`, non-interactive.
+- Video backgrounds fill viewport via minimum viewport width and height, centered, non-interactive.
 - Pattern overlay covers entire intro with low opacity, preserving legibility of text over video.
 - Canvas visuals are procedural — no baked hero images — except for pattern overlay and video backgrounds from `/public`.
 - Embedded video in outro is standard YouTube embed.
+- **Fallbacks:** If atmospheric videos fail to load or autoplay is blocked, intro shows solid deep navy `#192e4c` background with pattern overlay retained at same opacity and editorial text at full opacity, so purpose remains readable. Poster treatment is solid color, not broken player. If pattern image fails, intro degrades to solid navy and videos alone. If body font fails, fallback `sans-serif` maintains line-height and readability. Outro YouTube if blocked shows link text fallback to same URL.
 
 ## 4. Global Accessibility Requirements
 
@@ -125,17 +126,10 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 - Voice: Reflective, respectful, concise.
 - Footer closing: `Made with love in Brooklyn, 2019.`
 
-### Intro copy (exact)
-- **Title:** `One Amongst Many`
-- **Byline:** `by Christina Dacanay, Tina Rungsawang, and Shirley Wu` — where `Christina Dacanay` links to `http://cdacanay.com/`, `Tina Rungsawang` to `https://tina.pizza/`, `Shirley Wu` to `http://sxywu.com/`.
-- **First paragraph:** `Young women entering fields dominated by men often feel like there is no history of people like them in their field. We know now that this is an issue of storytelling, not of history. Women have been contributing to every field, however invisibly, since the beginning of time.`
-- **Second paragraph:** `One Amongst Many attempts to illuminate the histories of women in computing that have been diminished or erased. It is a data installation where each woman is arranged in a field by the year of her greatest achievement, and the height of the orb correlated to her renown. Every orb starts dimmed, and gets brighter each time another person reads about them, literally shedding light on the woman's accomplishments.`
-- **Second screen legend paragraph:** `One Amongst Many is a physical data visualization created at New York University's ITP Master's program. The original installation consisted of 16-20 illuminated orbs suspended from the ceiling, each with a woman's biography inside. This website is a digital analog to the installation, so that people around the world can learn about these incredible women in computing.`
-- **Scroll cue:** `⌄`
-
 ### Navigation and links
-- Intro byline links are all external with new tab behavior.
+- Intro byline links are all external with new tab behavior, pointing to creator portfolios.
 - No internal navigation aside from scroll.
+- Story `read more` links point to Wikipedia biographies, outro credits point to essays and video as per surface definitions.
 
 ### Data structure
 - Collection contains `18` women. Each record includes:
@@ -176,25 +170,23 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 
 | Asset path | Usage |
 | --- | --- |
-| `/fonts/opensans-400.woff2` | Body and secondary text |
-| `/fonts/opensans-400i.woff2` | Italic field labels and byline emphasis |
-| `/fonts/opensans-700.woff2` | Title, orb name, year label, strong headings |
-| `/images/bg-pattern.png` | Low-opacity pattern overlay covering entire intro, decorative |
-| `/videos/fancy_reduced.mp4` | First intro background video, full-cover, behind first screen text |
-| `/videos/timelapse_reduced.mp4` | Second intro background video, full-cover, behind second screen legend text |
-
-### Outro content
-
-| Label | Url or copy |
-| --- | --- |
-| Embedded video | `https://www.youtube.com/embed/bEM0CRdCrQo` |
-| Heading | `Read more about One Amongst Many here:` |
-| Christina's essay | `http://www.cdacanay.com/itp-blog/2019/12/23/one-amongst-many-connecting-womxn-in-computing` — linked as `Christina's design-centric recounting` |
-| Tina's story | `https://tina.pizza/one-amongst-many` — linked as `Tina's physical computing story` |
-| Shirley's write-up | `http://www.datasketch.es/june/` — linked as `Shirley's data visualization write-up` |
-| Footer | `Made with love in Brooklyn, 2019.` |
+| `/fonts/opensans-400.woff2` | Body and secondary text, fallback sans-serif |
+| `/fonts/opensans-400i.woff2` | Italic field labels and byline emphasis, fallback sans-serif |
+| `/fonts/opensans-700.woff2` | Title, orb name, year label, strong headings, fallback sans-serif |
+| `/images/bg-pattern.png` | Low-opacity pattern overlay covering entire intro, decorative, fallback solid navy if image missing |
+| `/videos/fancy_reduced.mp4` | First intro background video, full-cover, behind first screen text, fallback solid navy with pattern and poster behavior if video fails or autoplay blocked |
+| `/videos/timelapse_reduced.mp4` | Second intro background video, full-cover, behind second screen legend text, fallback solid navy with pattern and poster behavior if video fails |
 
 ## 6. Product Surfaces
+
+Build phasing by dependency:
+
+- **Phase 1 — Structure:** Global shell with language, font loading, long scroll runway, fixed layer stack (intro, canvas, overlay, outro, progress), intro text blocks with title/byline/paragraphs, semantic headings, canvas placeholder, story card shell, outro panel with video placeholder.
+- **Phase 2 — Styling:** Color tokens, typography scale, sky gradient, terrain base and wireframe emphasis, star discs, orb golden palette with screen blending, glow shadows, radii, pattern overlay low opacity, video cover centering, responsive max-widths.
+- **Phase 3 — Interactivity:** Native scroll progress mapping, intro crossfade timeline, visualization progress scrub, camera timeline per orb (move+hold + final pullback), orb focus detection and debounced index, story visibility window, progress indicator updates, link interactions, resize handling.
+- **Phase 4 — Polish:** Gentle entrance slide/fade for story, bounce cue motion, idle bob and internal drift for orbs, distance fade for far orbs, smooth scrolling, blurred progress pill, reduced-motion disabling, fallback for missing videos/pattern.
+
+Flow still presents Intro → Visualization → Story/Progress → Outro → Global Shell foundation, which follows user journey while respecting the phasing above.
 
 ### Home Page — Route `/`
 
@@ -206,17 +198,18 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 
 - Content:
   - Heading `One Amongst Many`
-  - Byline with three author links as listed in Global Content
-  - Two editorial paragraphs about history and project purpose
-  - Second-screen paragraph explaining physical installation context
+  - Byline `by Christina Dacanay, Tina Rungsawang, and Shirley Wu` where names link to `cdacanay.com`, `tina.pizza`, `sxywu.com`
+  - First paragraph exact: `Young women entering fields dominated by men often feel like there is no history of people like them in their field. We know now that this is an issue of storytelling, not of history. Women have been contributing to every field, however invisibly, since the beginning of time.`
+  - Second paragraph exact: `One Amongst Many attempts to illuminate the histories of women in computing that have been diminished or erased. It is a data installation where each woman is arranged in a field by the year of her greatest achievement, and the height of the orb correlated to her renown. Every orb starts dimmed, and gets brighter each time another person reads about them, literally shedding light on the woman's accomplishments.`
+  - Second-screen legend exact: `One Amongst Many is a physical data visualization created at New York University's ITP Master's program. The original installation consisted of 16-20 illuminated orbs suspended from the ceiling, each with a woman's biography inside. This website is a digital analog to the installation, so that people around the world can learn about these incredible women in computing.`
   - Scroll cue `⌄`
 - Structure, components, and assets:
-  - Full viewport fixed layer covering screen with `z-index 5`.
-  - Inside, video backgrounds layer holding two videos: `/videos/fancy_reduced.mp4` and `/videos/timelapse_reduced.mp4` each full-cover, centered, non-interactive, with opacity crossfade driven by scroll.
-  - Pattern overlay `/images/bg-pattern.png` at `0.3` opacity over videos.
-  - Text block `600px` wide, centered at `40vh` / `50vw` with `translate(-50%, -50%)`, justified alignment, `z-index 10`, pointer events enabled so links are clickable while videos remain behind.
+  - Full viewport fixed layer covering screen at topmost intro depth.
+  - Inside, video backgrounds layer holding two videos: `/videos/fancy_reduced.mp4` and `/videos/timelapse_reduced.mp4` each full-cover, centered, non-interactive, with opacity crossfade driven by scroll. Fallback solid navy if videos unavailable.
+  - Pattern overlay `/images/bg-pattern.png` at `0.3` opacity over videos, fallback to solid if missing.
+  - Text block max `600px` wide, centered at mid viewport, justified alignment, at higher depth than videos, interactive so links remain clickable while videos remain behind.
   - Second text block same dimensions but separate timing.
-  - Bounce cue full-width centered at `bottom 80px`, `3em` size.
+  - Bounce cue full-width centered near bottom, large size, with gentle vertical bounce motion.
 - Behavior / states:
   - On page entry, view starts at top, intro fully opaque.
   - As visitor scrolls down through intro span (first `10` viewports), first text block fades out over early portion of timeline, first video fades out shortly after, second text and second video fade in between `0.8` and `1.3` of a `0`-to-`3` timeline, hold fully visible `1.3` to `2.2`, then fade out `2.2` to `2.9`.
@@ -238,13 +231,13 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
   - No textual content itself — presents environment.
   - Visual elements: sky gradient, terrain plane with subtle wireframe facet lines, `480` star discs, `18` orb billboards each grouping `4` to `7` warm golden circles.
 - Structure, components, and assets:
-  - Fixed canvas filling viewport `100vw` by `100vh` anchored at `inset 0`, `z-index 1`.
-  - Sky rendered as inner sphere with vertical gradient canvas `2px` by `512px` mapped around scene.
-  - Terrain as low-poly plane with randomized height and flat shading, rotated to appear horizontal, placed below eye height to push horizon low (~bottom third).
-  - Wireframe overlay same geometry as terrain, line material `#3a556f` at `0.14` opacity.
+  - Fixed canvas filling viewport anchored to cover screen at lowest depth behind narrative.
+  - Sky rendered as inner sphere with vertical gradient mapped around scene.
+  - Terrain as low-poly plane with randomized height and flat shading, rotated to appear horizontal, placed below eye height to push horizon low near bottom third.
+  - Wireframe overlay same geometry as terrain, subtle dark line at low opacity.
   - Stars distributed using Gaussian around center, random scale, for sparse night sky.
-  - Orbs positioned according to year (depth) and renown (height), clustered tightly toward center via gathering transform so screenshot-like composition shows orbs centrally rather than spread edge to edge. Orb size range `0.4` to `1.0` based on backlink count, but plane itself remains `1.25` base, with scale animated on highlight.
-  - Each orb's inner circles use screen blending with alpha layers `0.05`, `0.1`, `0.85` and radius scales `1`, `0.75`, `0.5`.
+  - Orbs positioned according to year (depth) and renown (height), clustered tightly toward center so composition shows orbs centrally rather than spread edge to edge. Orb size range `0.4` to `1.0` based on renown, but base plane remains consistent size with scale animated on highlight.
+  - Each orb's inner circles use screen blending with multiple alpha layers and radius scales for layered glow.
 - Behavior / states:
   - When intro active, canvas sits behind intro and is already rendering but visually obscured.
   - When intro fades, canvas becomes dominant with wide overview showing all orbs small, no story card yet for first `1%` of visualization scroll.
@@ -273,17 +266,17 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
     - Link `read more →` to `url` from inventory
   - Progress pill e.g. `5 of 18`
 - Structure, components, and assets:
-  - Overlay container fixed, occupies `min-height 100vh`, `z-index 10`, pointer events none by default, opacity driven by timeline logic.
-  - Story card inside, fixed at `50%` / `50%` with `translate(-50%, -50%)`, max-width `340px`, padding `24px`, centered text, text color `#0b1e38` with glow shadow, `z-index 20`, pointer events auto when visible so `read more` link is clickable.
-  - Animation `fadeSlideIn` `0.9s ease-out` restarted on each new woman by key change.
-  - Progress pill fixed bottom center `bottom 24px` `left 50%` `translateX(-50%)`, background `rgba(11,30,56,0.6)` blur `8px`, border `1px solid rgba(255,254,245,0.15)`, `z-index 30`, pointer events none.
+  - Overlay container fixed, occupies at least full viewport height, at mid depth, non-interactive by default, opacity driven by scroll timeline.
+  - Story card inside, fixed centered, max-width `340px`, padding `24px`, centered text, dark text with glow shadow for legibility over dark sky, at higher depth than overlay, interactive when visible so `read more` link remains clickable.
+  - Entrance motion gentle slide upward with fade, duration under one second, ease-out, restarted on each new woman.
+  - Progress pill fixed bottom center, translucent dark with blur, rounded, non-interactive.
 - Behavior / states:
-  - Story appears only after camera has arrived at orb. Logic: within each orb segment `2` units, local time `0` to `0.5` no text, `0.5` to `0.7` fade in, `0.7` to `1.7` hold at `1`, `1.7` to `1.9` fade out, after `1.9` hidden. This ensures text is not visible during camera travel.
-  - When hidden, overlay uses `visibility: hidden` to prevent invisible links capturing clicks.
-  - Progress appears only when visualization active and a story index is active (e.g., `showTextIndex >=0`), otherwise hidden.
-  - Text card keyed by current woman index so entrance animation restarts on each change.
+  - Story appears only after camera has arrived at orb. Within each orb dwell segment, early portion hides text, middle portion fades in and holds fully visible, late portion fades out before travel resumes, ensuring text never shows during camera movement.
+  - When hidden, overlay uses hidden visibility to prevent invisible links capturing clicks.
+  - Progress appears only when visualization is active and a woman is currently focused, otherwise hidden.
+  - Card is keyed by current woman so entrance restarts on each change.
   - Link opens external biography in new tab.
-  - If visitor scrolls quickly, story index debounces so that camera target and text stay synchronized, avoiding flicker.
+  - If visitor scrolls quickly, focused index updates with short debounce so camera target and text stay synchronized, avoiding flicker.
 - Responsive behavior:
   - Small screens: max-width `calc(100% - 40px)`, name `1.75rem`, summary `0.85rem`.
 - Accessibility notes:
@@ -294,9 +287,11 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 #### Outro Region
 
 - Content:
-  - YouTube iframe `https://www.youtube.com/embed/bEM0CRdCrQo`
+  - YouTube iframe `https://www.youtube.com/embed/bEM0CRdCrQo` (fallback link to same URL if embed blocked)
   - Heading `Read more about One Amongst Many here:`
-  - Three credit links as per Global Content
+  - Christina's essay `http://www.cdacanay.com/itp-blog/2019/12/23/one-amongst-many-connecting-womxn-in-computing` linked as `Christina's design-centric recounting`
+  - Tina's story `https://tina.pizza/one-amongst-many` linked as `Tina's physical computing story`
+  - Shirley's write-up `http://www.datasketch.es/june/` linked as `Shirley's data visualization write-up`
   - Footer `Made with love in Brooklyn, 2019.`
 - Structure, components, and assets:
   - Fixed center panel at `top 50vh` `left 50vw` `translate(-50%, -50%)`, width `min-content`, centered text, `z-index 20`, color `#fffef5`, pointer events auto when visible.
@@ -344,7 +339,7 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 ### Intro Narrative
 - Title `One Amongst Many` appears as primary heading at top of initial view.
 - Byline with three author links to `cdacanay.com`, `tina.pizza`, `sxywu.com` is present and clickable.
-- First two editorial paragraphs and second-screen legend paragraph display with exact copy listed in Global Content.
+- First two editorial paragraphs and second-screen legend paragraph display with exact copy as defined in Intro Narrative Region surface.
 - Two videos `/videos/fancy_reduced.mp4` and `/videos/timelapse_reduced.mp4` cover the background, auto-play muted and loop, with visible crossfade as visitor scrolls through first `10` viewports.
 - Pattern overlay `/images/bg-pattern.png` shows at `0.3` opacity over videos.
 - Bounce cue `⌄` is centered at bottom, bounces vertically, and fades out as introduction ends.
@@ -369,7 +364,7 @@ The tone is editorial, intimate, and atmospheric. The product balances cinematic
 - Hidden outro does not block clicks when invisible.
 
 ### Responsive and Accessibility
-- At `1440px` width body is long scroll, no horizontal overflow; at `390px` width intro block becomes `calc(100% - 40px)`, story card adapts, iframe scales to `340` by `240`.
+- At `1440px` width body is long scroll, no horizontal overflow; at `600px` tablet width intro block uses fluid width with max `600px` and scales, story card max `calc(100% - 60px)`; at `390px` width intro block becomes `calc(100% - 40px)`, story card adapts, iframe scales to `340` by `240`.
 - Keyboard scroll moves through entire experience; Tab reaches byline and `read more` and outro links with visible focus.
 - Canvas has role `img` and descriptive aria label covering purpose and scroll instruction.
 - Progress indicator uses polite live region.

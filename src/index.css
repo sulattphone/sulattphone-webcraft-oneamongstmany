@@ -52,6 +52,13 @@ body {
   height: 50000px; /* increased from 30000 for 2 scrolls per orb (18*2=36VH +10VH intro) */
 }
 
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    height: 35000px;
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 320px) and (max-width: 480px) {
   body {
     height: 25000px; /* increased from 10000 for 2 scrolls per orb mobile */
