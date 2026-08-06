@@ -546,7 +546,10 @@ export default function Home() {
         setShowTextIndex(textIdx)
       }
       if (overlayRef.current) {
-        overlayRef.current.style.opacity = String(showVisualizationRef.current && textIdx >= 0 ? textOpacity : 0)
+        const vis = showVisualizationRef.current && textIdx >= 0 ? textOpacity : 0
+        overlayRef.current.style.opacity = String(vis)
+        // visibility:hidden kills pointer events on invisible text/links
+        overlayRef.current.style.visibility = vis > 0 ? 'visible' : 'hidden'
       }
 
       // Outro — original: outroOpacity 0→1 at orbs.length + 0.5, duration 0.5
@@ -554,7 +557,10 @@ export default function Home() {
       const outroStart = orbs.length * ORB_SEGMENT + 0.5
       const outroOpacity = Math.max(0, Math.min(1, (tlTime - outroStart) / 0.5))
       if (outroRef.current) {
-        outroRef.current.style.opacity = String(showVisualizationRef.current ? outroOpacity : 0)
+        const vis = showVisualizationRef.current ? outroOpacity : 0
+        outroRef.current.style.opacity = String(vis)
+        // visibility:hidden prevents the invisible iframe from capturing clicks
+        outroRef.current.style.visibility = vis > 0 ? 'visible' : 'hidden'
       }
 
       renderer.render(scene, camera)
@@ -642,7 +648,7 @@ export default function Home() {
         </div>
       )}
       {/* Orb info - text synced to camera timeline via overlayRef opacity in animate loop */}
-      <div ref={overlayRef} className={styles.overlay} style={{ opacity: 0 }}>
+      <div ref={overlayRef} className={styles.overlay} style={{ opacity: 0, visibility: 'hidden' }}>
         {currentWoman && (
           <div className={styles.orbText} key={showTextIndex}>
             <div className={styles.orbYear}><strong>{currentWoman.year}</strong></div>
@@ -660,7 +666,7 @@ export default function Home() {
       </div>
 
       {/* Outro - original Infobox.vue outro template: YouTube embed + credits, fades in after final pullback */}
-      <div ref={outroRef} className={styles.outro} style={{ opacity: 0 }}>
+      <div ref={outroRef} className={styles.outro} style={{ opacity: 0, visibility: 'hidden' }}>
         <p>
           <iframe
             width={isPhone ? 340 : 854}
