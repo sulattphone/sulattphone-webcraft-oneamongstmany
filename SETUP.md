@@ -90,10 +90,10 @@ npm test  # Vitest placeholder, no meaningful unit tests for visual experience
 
 Narrated screen-recording walkthrough, per Web Craft submission requirements, uploaded to pxl.cl.
 
-- Main walkthrough: _Pending — user will provide pxl.cl link later_ — placeholder kept in SETUP, video not committed to repo
-- Expected content: scroll 0→10vh intro crossfade → 18 orbs camera travel → story cards → outro YouTube + credits
+- Main walkthrough: **https://pxl.cl/c7DnV** — covers intro narrative with video crossfade, scroll-driven camera journey through 18 glowing orbs, orb story overlay (year/name/fields/summary + read more), progress indicator, and outro closure with YouTube + credits
+- Video not committed to repo — only link tracked, per track requirements
 
-When you have the link, add it here as e.g. `https://pxl.cl/XXXX` and also update README if required by track rubric.
+Content in video: scroll 0→10vh intro crossfade (fancy → timelapse + legend), wide landing 1% overview, 18 orbs camera travel (2 units move+hold each, final pullback), story cards fadeSlideIn + progress `X of 18`, outro YouTube + credits `Made with love in Brooklyn, 2019.`
 
 ## Validation
 
@@ -115,6 +115,6 @@ When you have the link, add it here as e.g. `https://pxl.cl/XXXX` and also updat
 - [x] `public/` assets (fonts, pattern, 2 videos) used in product
 - [x] Deployed to AAI `aai-webcraft/sulattphone-webcraft-oneamongstmany` prod `https://sulattphone-webcraft-oneamongstmany.vercel.app` Ready, 200 OK
 - [x] `package.json` dependencies fixed and committed (gsap, @vitejs/plugin-react)
-- [ ] Walkthrough video pxl.cl link — _TODO user will provide later_
+- [x] Walkthrough video pxl.cl link — **https://pxl.cl/c7DnV** (provided, added to SETUP)
 
-After you provide pxl.cl link, add it above and re-push, then final submit via Web Craft portal.
+Submission ready via Web Craft portal — prod live, PRD PASS, features 5 rubrics, screenshots updated, walkthrough linked.

@@ -17,9 +17,9 @@ npm run preview  # http://localhost:4173
 
 - `site.toml` — Submission manifest (url, stack, assets, screenshots, hosting_access_granted=true)
 - `PRD.md` — Product requirements document (validated PASS R1-R6 / W1-W4)
-- `SETUP.md` — Setup & deployment instructions (includes prod URL and pending walkthrough note)
+- `SETUP.md` — Setup & deployment instructions (includes prod URL and walkthrough link https://pxl.cl/c7DnV)
 - `.env.example` — Placeholder (no env vars required, static frontend)
-- `screenshots/` — Desktop 1440×900 `home-desktop.png` and Mobile 390×844 `home-mobile.png`
+- `screenshots/` — Desktop 1440×900 `home-desktop.png` and Mobile 390×844 `home-mobile.png` (user-uploaded)
 - `features.json` — Five key rubrics: long-scroll progression, 3D space with floating orbs, scroll camera journey, orb story overlay, atmospheric intro/outro
 
 ## Tech Stack
@@ -41,7 +41,9 @@ Deployed to **AAI Web Craft** team via Vercel CLI:
 - Build: `added 139 packages, 42 modules transformed, 2.51s`, output `711KB / 205KB gzip`
 - Build fix: added missing `gsap` and `@vitejs/plugin-react` to `package.json`
 
-See `SETUP.md` for full local, build, and Vercel steps and walkthrough video placeholder.
+Walkthrough video: **https://pxl.cl/c7DnV** — narrated scroll through intro crossfade → 18 orbs → outro.
+
+See `SETUP.md` for full local, build, Vercel prod deploy steps, PRD validation, and submission checklist.
 
 ## Full Guide
 
