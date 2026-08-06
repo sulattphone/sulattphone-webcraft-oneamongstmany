@@ -130,7 +130,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  max-width: 420px;
+  max-width: 340px;
   pointer-events: auto;
   animation: fadeSlideIn 0.9s ease-out; /* longer fade per original */
   color: #0b1e38;
@@ -139,6 +139,44 @@
   padding: 24px;
   /* Ensure text readable on dark sky without background? Original has light orb background, but per "no background" we use black text with slight shadow for readability */
   text-shadow: 0 0 12px rgba(255,254,245,0.6), 0 0 24px rgba(255,254,245,0.3);
+}
+
+/* Outro — original grace.css .outro */
+.outro {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  width: min-content;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 20;
+  pointer-events: auto;
+  color: #fffef5;
+}
+
+.outro p {
+  line-height: 1;
+}
+
+.outro a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.outroCredits {
+  margin-top: 28px;
+}
+
+.outroFooter {
+  margin-top: 24px;
+}
+
+.outro a:hover {
+  border-bottom: 1px dashed;
 }
 
 /* Keep old orbInfo for reference but not used now - info on orbs themselves */
@@ -160,18 +198,17 @@
 }
 
 .orbYear {
-  font-size: 0.9rem;
+  font-size: 1.25em;
   font-weight: 700;
   margin-bottom: 0.4rem;
   padding-bottom: 0.4rem;
-  border-bottom: 2px solid #0b1e38;
+  border-bottom: 1px solid #0b1e38;
   display: inline-block;
-  letter-spacing: 0.04em;
   color: #0b1e38;
 }
 
 .orbName {
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-size: 1.5em;
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 0.4rem;
@@ -188,29 +225,29 @@
 }
 
 .orbSummary {
-  font-size: 0.88rem;
+  /* original: no custom class — inherits body 18px / weight 400 */
   line-height: 1.6;
   margin-bottom: 1.2rem;
-  opacity: 1;
   color: #0b1e38;
-  max-width: 380px;
+  max-width: 320px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.readMoreLine {
+  color: #0b1e38;
+}
+
 .readMore {
-  font-size: 0.85rem;
   color: #0b1e38;
   text-decoration: none;
-  border-bottom: 1.8px solid #0b1e38;
-  padding-bottom: 2px;
+  border-bottom: 1px solid #0b1e38;
   cursor: pointer;
   pointer-events: auto;
-  font-weight: 600;
 }
 
 .readMore:hover {
-  border-bottom: 1.8px dashed #0b1e38;
+  border-bottom: 1px dashed #0b1e38;
 }
 
 @keyframes fadeSlideIn {
