@@ -24,7 +24,7 @@ This is an original concept inspired by physical data installations where illumi
 - See overall progress and reach a satisfying conclusion with additional resources.
 
 ### Core flows
-- **Intro flow:** Visitor lands at top, sees title, subtitle explaining the archive's purpose, and two to three short editorial paragraphs describing why the collection exists and how orbs encode time and prominence. A soft looping downward cue near the bottom encourages scrolling. Two slow atmospheric video layers crossfade behind the text as the visitor moves through the first portion of the scroll.
+- **Intro flow:** Visitor lands at top, sees title, subtitle explaining the archive's purpose, and exactly three short editorial paragraphs describing why the collection exists and how orbs encode time and prominence. A looping downward cue near the bottom encourages scrolling. Two atmospheric video layers crossfade behind the text according to the exact scroll timeline in the motion specification.
 - **Visualization journey:** After the introduction, the full landscape appears — sky, stars, terrain, and clustered golden orbs in the distance. Continued scrolling moves the camera deeper into the field, approaching each orb in chronological order, holding briefly, then moving to the next. Text appears only when the camera has settled and fades out before travel resumes.
 - **Story consumption:** At each orb, a fixed centered card shows year, name, field, short contribution, and a link to an encyclopedia entry. The card enters with a gentle upward drift and fade, then fades out as the visitor scrolls onward.
 - **Completion flow:** After the final orb, the camera pulls back to a wide elevated view and a closing panel fades in with an embedded documentary video and links to further reading about computing history. A brief original footer line closes the page.
@@ -39,15 +39,15 @@ This is an original concept inspired by physical data installations where illumi
 
 ### Typography
 - **Family:** `Open Sans`, sans-serif, served from `/fonts/opensans-400.woff2`, `/fonts/opensans-400i.woff2`, `/fonts/opensans-700.woff2` with `font-display: swap` and generic sans-serif fallback.
-- **Body:** `18px` / line-height `2`, weight `400`, antialiased. On small viewports scales to `14px`.
+- **Body:** `18px` on viewports at least `769px` wide, `16px` from `481px` through `768px`, and `14px` from `320px` through `480px`; line-height `2`, weight `400`, antialiased.
 - **Title:** `2em`, weight `700`, centered.
-- **Subtitle:** `0.95em`, centered, opacity moderated, margin below `2rem`.
-- **Orb year label:** Approximately `0.9rem` to `1.25em`, weight `700`, with a subtle bottom border, displayed inline-block.
-- **Orb name:** Approximately `1.5em` up to `clamp(1.5rem, 3.8vw, 2.3rem)` on larger screens, weight `700`, line-height `1.15`.
-- **Orb fields:** Around `0.82rem` to `0.85rem`, italic, opacity `0.85` to `0.9`.
-- **Orb summary:** Line-height `1.55` to `1.6`, max-width `~300px` to `~340px`, centered.
-- **Progress pill:** Around `0.85rem`, letter-spacing `0.05em`, opacity `0.6`.
-- Links use inherited color with a solid underline that becomes dashed on hover/focus.
+- **Subtitle/byline:** `0.85em`, centered, margin below `2rem`.
+- **Orb year label:** `1.25em`, weight `700`, `1px solid #0b1e38` bottom border, displayed inline-block.
+- **Orb name:** `1.5em` on desktop, `2rem` from `481px` through `768px`, and `1.75rem` at `480px` and below; weight `700`, line-height `1.15`.
+- **Orb fields:** `0.85rem`, italic, opacity `0.9`.
+- **Orb summary:** Inherits the body size on desktop, uses `0.95rem` from `481px` through `768px`, and `0.85rem` at `480px` and below; line-height `1.6`, max-width `320px`, centered.
+- **Progress pill:** `0.85rem`, letter-spacing `0.05em`, opacity `0.6`.
+- Links use inherited color with a `1px solid` bottom border; hover changes the border style to dashed, while keyboard focus adds a `2px solid currentColor` outline with `4px` offset.
 
 ### Color tokens
 - `--color-bg`: `#192e4c` — deep navy page background and sky zenith.
@@ -55,25 +55,25 @@ This is an original concept inspired by physical data installations where illumi
 - `--color-accent`: `#e8a838` — accent for interactive emphasis.
 - `--color-dot`: `rgba(255,254,245,0.3)` — dim star treatment.
 - `--color-highlight`: `#fffef5` — highlighted state.
-- **Sky gradient:** Vertical gradient from `#192e4c` at zenith, through `#1e3558` around `40%`, `#2a446e` around `70%`, to `#345488` at horizon.
-- **Terrain:** Base around `#213344` to `#2c445f`, muted dark slate blue with flat-shaded low-poly facets and a faint wireframe emphasis at low opacity using `#3a556f`.
-- **Orb golden palette:** Warm overlapping circles using screen blending — core near `#ffe8a0` at higher opacity, inner mid near `#ffcc66`, mid near `#ffb84d`, outer near `#e6a040`, each with descending opacity to create layered glow. Shared orb plane size around `1.25`.
-- **Stars:** Soft off-white small discs, opacity varied by scale.
-- **Orb text legibility:** Dark text on a warm radial glow, optionally enhanced with a very soft luminous shadow to keep readability against dark sky without a hard rectangular backdrop.
-- **Progress pill:** Background around `rgba(11,30,56,0.6)` with blur around `8px` and a faint border.
+- **Sky gradient:** Vertical gradient from `#192e4c` at `0%`, through `#1e3558` at `40%` and `#2a446e` at `70%`, to `#345488` at `100%`.
+- **Terrain:** `#213344` with double-sided, flat-shaded facets and roughness `1`.
+- **Orb golden palette:** Each circle color is interpolated within the exact endpoint range `#ffe070` to `#f08840`. Three screen-blended layers use radius multipliers `1`, `0.75`, and `0.5` with alpha values `0.05`, `0.1`, and `0.85`. Every orb uses a `1.25 × 1.25` plane.
+- **Stars:** Exactly `480` off-white `#fffef5` discs, each with base radius `0.075`, `20` radial segments, and a deterministic scale in the interval `[0, 1)`.
+- **Orb text legibility:** Text color `#0b1e38` with shadows `0 0 12px rgba(255,254,245,0.6)` and `0 0 24px rgba(255,254,245,0.3)`; there is no hard rectangular backdrop.
+- **Progress pill:** Background `rgba(11,30,56,0.6)`, blur `8px`, and border `1px solid rgba(255,254,245,0.15)`.
 
 ### Layout and spacing
 - Single-column page with no header navigation.
-- Scroll runway is intentionally very tall: approximately `50000px` on desktop and `25000px` on small viewports, creating a distinct intro span of several viewports plus a long visualization span.
-- Fixed layers covering viewport: intro layer above canvas, story overlay mid depth, closing panel above that, progress indicator topmost, ensuring intro sits over canvas and progress remains visible.
-- Content width: intro text block max `600px` centered (fluid on tablet/mobile); story card max-width `340px` centered; closing panel uses `min-content` width centered.
-- Gutters: editorial paragraphs have comfortable bottom margin and generous line-height with justified or left-aligned text depending on breakpoint.
-- Radii: progress pill rounded to pill shape, story card uses soft glow without hard corner clipping.
+- Scroll runway height is `50000px` at `769px` and above, `35000px` from `481px` through `768px`, and `25000px` at `480px` and below. The intro consumes exactly `10` viewport heights before the remaining runway maps to the visualization.
+- Fixed layers use these exact stack depths: canvas `1`, intro `5`, narrative overlay `10`, story card and closing panel `20`, and progress indicator `30`.
+- Intro text has `max-width: 600px`; story text has `max-width: 340px` with `24px` padding; the closing panel width is `min(854px, calc(100vw - 40px))` and its media keeps an `854 / 480` aspect ratio.
+- Editorial paragraphs use `1.5rem` bottom margin, line-height `2`, and justified alignment.
+- The progress pill uses a `20px` radius and `6px 14px` padding. The story card has no filled box or clipped corners.
 
 ### Visual components (product/UI building blocks)
-- **Intro text block:** Title, subtitle describing curatorial intent, and two to three short editorial paragraphs in original wording.
+- **Intro text block:** Title, subtitle describing curatorial intent, and exactly three short editorial paragraphs in original wording.
 - **Video background pair:** Two full-cover looped atmospheric videos placed behind intro text, muted, autoplay, inline playback.
-- **Pattern overlay:** Full-cover subtle pattern image at low opacity, non-interactive, to add texture.
+- **Pattern overlay:** Full-cover pattern image at opacity `0.3`, non-interactive, to add texture.
 - **Scroll cue:** Centered downward chevron character near bottom that animates with a gentle looping vertical motion.
 - **Canvas landscape:** WebGL canvas fixed to viewport showing sky gradient, terrain plane, star field, and orb billboards.
 - **Orb billboard:** Plane representing one figure, containing several overlapping warm circles that drift slowly within a constrained radius, using screen blending for glow.
@@ -83,26 +83,26 @@ This is an original concept inspired by physical data installations where illumi
 
 ### Motion language
 - **Global:** Smooth scrolling enabled so programmatic scroll animates rather than jumps.
-- **Video crossfade:** Opacity transition with a short ease (around a few hundred milliseconds) between atmospheric backgrounds driven by scroll timeline.
-- **Story entrance:** Centered card enters from a slight vertical offset below its resting position with a fade from transparent to opaque, duration under one second with an ease-out curve, restarted each time the displayed figure changes.
-- **Scroll cue motion:** Downward indicator moves vertically in a loop — from rest position upward slightly and back — with a slow ease-in-out over about one and a half seconds, infinitely, drawing attention to scroll.
-- **Camera travel:** Scroll progress scrubs a paused timeline where each orb receives a move segment followed by a hold segment. Final pullback after last orb lasts longer. Travel eases smoothly toward target with subtle interpolation so motion feels continuous rather than stepped.
-- **Orb idle motion:** Gentle floating — small vertical and horizontal bob at slow frequencies — creating calm breathing.
-- **Circle drift inside orbs:** Each inner circle drifts independently within its orb using slow pseudo-noise and circular motion, creating organic blob movement.
+- **Video crossfade:** This is scroll-scrubbed, not clock-timed. Across the intro's normalized `0–3` timeline, the first video stays at opacity `1` through `1.0` and fades linearly to `0` from `1.0–1.4`; the second video fades linearly from `0–1` over `0.8–1.3`, holds through `2.2`, and fades linearly to `0` over `2.2–2.9`. Because scroll directly controls opacity, there is no independent millisecond duration or CSS easing.
+- **Story entrance:** The centered card animates from opacity `0` and `translate(-50%, -45%)` to opacity `1` and `translate(-50%, -50%)` over exactly `0.9s` with `ease-out`, restarting whenever the displayed figure changes.
+- **Scroll cue motion:** The downward indicator runs an infinite `1.5s ease-in-out` cycle, moving from `translateY(0)` at `0%` to `translateY(-20px)` at `50%` and back to `translateY(0)` at `100%`.
+- **Camera travel:** Each orb receives exactly `2` normalized timeline units: `1` unit of travel followed by `1` unit of hold. Travel uses quadratic ease-out `1 - (1 - p)^2`. The final pullback lasts exactly `2` units.
+- **Orb idle motion:** The orb planes remain fixed while their internal circles move, preventing the chronological layout from wandering.
+- **Circle drift inside orbs:** Internal motion advances at `0.6` phase units per second; each circle follows deterministic pseudo-noise plus circular motion, with its speed mapped from `0.5` through `1.0` by the figure's age at achievement.
 - No motion description references concrete CSS keyframe identifiers; all motion is described by its perceived behavior and timing qualities.
 
 ### Responsive system
 - **Breakpoint small:** `320px` to `480px` considered mobile.
-- **Body height:** Switches from long desktop runway to shorter mobile runway to keep effort proportional.
-- **Intro block:** On small screens, top shifts slightly lower, width becomes fluid with side gutters, and only vertical centering is applied.
-- **Story card:** On small, max-width becomes viewport minus gutters, padding reduces, name and summary scale down modestly.
-- **Scroll cue:** Lowered closer to bottom edge on small screens.
-- **Outro embed:** Large dimensions on desktop, compact dimensions on small (for example around `340x240` on mobile vs larger on desktop).
+- **Body height:** `50000px` at `769px` and above, `35000px` from `481px` through `768px`, and `25000px` at `480px` and below.
+- **Intro block:** Desktop uses `top: 40vh`, `width: calc(100% - 40px)`, and `max-width: 600px`. Tablet uses `top: 42vh`, `width: calc(100% - 60px)`, and `12px` horizontal padding. Mobile uses `top: 45vh`, `left: 0`, `width: calc(100% - 40px)`, `20px` padding, and `translateY(-50%)`.
+- **Story card:** Desktop and mobile use `max-width: 340px` with `24px` padding. Tablet uses `max-width: calc(100% - 60px)` with `20px` padding. Responsive text sizes follow the exact typography values above.
+- **Scroll cue:** Bottom offset is `80px` on desktop, `40px` on tablet, and `10px` on mobile.
+- **Outro embed:** Desktop width is `min(854px, calc(100vw - 40px))`; tablet width is `calc(100% - 60px)` capped at `640px`; mobile width is `min(340px, calc(100vw - 40px))`. All sizes retain aspect ratio `854 / 480`.
 - **Touch target:** No custom small targets; native scroll and standard link hit areas.
 
 ### Image / media treatment
 - Video backgrounds fill viewport via minimum viewport width and height, centered, non-interactive.
-- Pattern overlay covers entire intro with low opacity, preserving legibility of text over video.
+- Pattern overlay covers the entire intro at opacity `0.3`, preserving legibility of text over video.
 - Canvas visuals are procedural — no baked hero images — except for pattern overlay and two intro videos from `/public`.
 - Embedded video in closing panel is a standard privacy-enhanced embed.
 - **Fallbacks:** If atmospheric videos fail to load or autoplay is blocked, intro shows solid deep navy background with pattern overlay retained and editorial text at full opacity so purpose remains readable. If pattern image fails, intro degrades to solid navy and videos alone. If body font fails, fallback sans-serif maintains line-height and readability. Closing video if blocked shows a text link fallback.
@@ -119,7 +119,7 @@ This is an original concept inspired by physical data installations where illumi
   - Story links have discernible text with arrow indicating external reference.
 - Alt text: Decorative pattern treated as decorative and non-interactive. Meaningful imagery conveyed via canvas aria label and story text.
 - Contrast: Primary text `#fffef5` on `#192e4c` exceeds WCAG AAA. Story card uses dark text on a warm luminous backing with optional soft glow to maintain readability.
-- Reduced motion: When user prefers reduced motion, the looping scroll cue motion and story entrance drift are disabled, and video crossfade opacity transitions are simplified. Canvas idle motion remains subtle without aggressive movement.
+- Reduced motion: When user prefers reduced motion, smooth scrolling, the looping scroll cue, the story entrance animation, and all canvas circle motion are disabled. Scroll-scrubbed intro opacity remains directly controlled by scroll position.
 - Media: Intro videos are decorative backgrounds, muted without audio, looped, not requiring captions as they convey atmosphere, not information.
 - Language: Document declares `<html lang="en">`.
 
@@ -135,7 +135,7 @@ This is an original concept inspired by physical data installations where illumi
 ### Navigation and links
 - No internal navigation aside from scroll.
 - Story reference links point to public encyclopedia biographies for each figure, opened in a new tab.
-- Closing panel provides one documentary video embed and two to three generic further-reading links to public resources about computing history (not personal design-essay URLs from another project's creators).
+- Closing panel provides one documentary video embed and exactly three generic further-reading links to public resources about computing history (not personal design-essay URLs from another project's creators).
 
 ### Data structure
 - Collection contains `18` figures. Each record includes:
@@ -188,7 +188,7 @@ This is an original concept inspired by physical data installations where illumi
 Build phasing by dependency:
 
 - **Phase 1 — Structure:** Global shell with language, font loading, long scroll runway, fixed layer stack (intro, canvas, overlay, closing, progress), intro text blocks with title/subtitle/paragraphs, semantic headings, canvas placeholder, story card shell, closing panel with video placeholder.
-- **Phase 2 — Styling:** Color tokens, typography scale, sky gradient, terrain base and wireframe emphasis, star discs, orb golden palette with screen blending, glow treatments, radii, pattern overlay low opacity, video cover centering, responsive max-widths.
+- **Phase 2 — Styling:** Color tokens, typography scale, four-stop sky gradient, `#213344` flat-shaded terrain, `480` star discs, orb color endpoint range with screen blending, exact glow layers, `20px` pill radius, pattern overlay at opacity `0.3`, video cover centering, and responsive max-widths.
 - **Phase 3 — Interactivity:** Native scroll progress mapping, intro crossfade timeline, visualization progress scrub, camera timeline per orb (move plus hold plus final pullback), orb focus detection with debounce, story visibility window, progress indicator updates, link interactions, resize handling.
 - **Phase 4 — Polish:** Gentle entrance drift and fade for story, soft looping cue motion, idle bob and internal drift for orbs, distance fade for far orbs, smooth scrolling, blurred progress pill, reduced-motion handling, fallback for missing media.
 
@@ -200,30 +200,30 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Provide the entire journey in one scrollable page.
   - Guide visitors from editorial introduction into immersive visualization and onward to conclusion.
 
-#### Intro Narrative Region (first several viewports of scroll)
+#### Intro Narrative Region (first `10` viewport heights of scroll)
 
 - Content:
   - Heading with original product title (for example "Lumen Field").
   - Subtitle explaining curatorial intent, for example noting that stories shape belonging and this field surfaces pioneers whose work is often under-told.
-  - Two to three short paragraphs of newly authored editorial copy: one paragraph on how computing histories have often overlooked women's contributions, a second on how arranging figures by year and relative prominence creates a navigable field, and an optional third on the inspiration from physical illumination installations reinterpreted digitally.
+  - Exactly three short paragraphs of newly authored editorial copy: one on how computing histories have overlooked women's contributions, one on how arranging figures by year and relative prominence creates a navigable field, and one on physical illumination installations reinterpreted digitally.
   - Scroll cue character (downward chevron) suggesting continuation.
 - Structure, components, and assets:
   - Full viewport fixed layer covering screen at topmost intro depth.
   - Inside, video backgrounds layer holding two videos: `/videos/fancy_reduced.mp4` and `/videos/timelapse_reduced.mp4` each full-cover, centered, non-interactive, with opacity crossfade driven by scroll.
-  - Pattern overlay `/images/bg-pattern.png` at low opacity over videos.
-  - Text block max around `600px` wide, centered at mid viewport, readable line-height, at higher depth than videos, interactive so links remain clickable while videos remain behind.
+  - Pattern overlay `/images/bg-pattern.png` at opacity `0.3` over videos.
+  - Text block `max-width: 600px`, centered at `top: 40vh` and `left: 50vw` on desktop with line-height `2`, at stack depth `10`, interactive so links remain clickable while videos remain behind.
   - Second text block same dimensions but staggered timing.
-  - Scroll cue full-width centered near bottom with gentle vertical looping motion.
+  - Scroll cue is full-width and centered with bottom offsets `80px` desktop, `40px` tablet, and `10px` mobile; its exact `1.5s` motion is defined above.
 - Behavior / states:
   - On page entry, view starts at top, intro fully opaque.
-  - As visitor scrolls through intro span (several viewports), first text block fades out over early portion of timeline, first video fades out shortly after, second text and second video fade in in the middle portion, hold fully visible, then fade out toward the end of intro.
-  - Cue stays visible through most of intro, then fades out as introduction ends.
-  - Entire intro layer fades out to reveal visualization underneath without abrupt cut.
-  - When scroll passes most of intro span (around four-fifths), intro becomes hidden and visualization is considered active.
+  - Scroll maps the first `10` viewport heights to normalized intro time `0–3`. The first text fades linearly from opacity `1–0` over time `0–0.9`; the first video fades `1–0` over `1.0–1.4`; the second text and video fade `0–1` over `0.8–1.3`, hold at `1` through `2.2`, then fade `1–0` over `2.2–2.9`.
+  - The cue holds opacity `1` through intro time `2.2`, then fades linearly to `0` over `2.2–2.9`.
+  - The entire intro layer holds opacity `1` through time `2.2`, then fades linearly to `0` over `2.2–3.0`.
+  - Visualization rendering becomes visible after `82%` of the intro distance, exactly `8.2` viewport heights from the top.
   - When text blocks are transparent, their links become non-interactive.
 - Responsive behavior:
-  - At small widths, text block width becomes fluid with side gutters, anchored slightly lower, font size reduces, and only vertical centering applied.
-  - Scroll cue moves closer to bottom edge on small screens.
+  - At `480px` and below, the text block uses `top: 45vh`, `left: 0`, `width: calc(100% - 40px)`, `20px` padding, `translateY(-50%)`, and `14px` body text.
+  - Scroll cue bottom offset is `10px` at `480px` and below.
 - Accessibility notes:
   - Heading hierarchy starts with `h1`.
   - Videos marked as decorative via pointer-events none and muted autoplay; no information conveyed only by video.
@@ -233,23 +233,22 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 
 - Content:
   - No textual content itself — presents environment.
-  - Visual elements: sky gradient, terrain plane with subtle wireframe facet lines, several hundred star discs, and `18` orb billboards each grouping `4` to `7` warm golden circles.
+  - Visual elements: the four-stop sky gradient, flat-shaded terrain plane, exactly `480` star discs, and `18` orb billboards each grouping `4` to `7` warm golden circles.
 - Structure, components, and assets:
   - Fixed canvas filling viewport anchored to cover screen behind narrative.
   - Sky rendered as inner gradient sphere.
-  - Terrain as low-poly plane with randomized height and flat shading, rotated to appear horizontal, placed below eye height to push horizon toward bottom third.
-  - Wireframe overlay same geometry as terrain, subtle line at low opacity.
-  - Stars distributed with variation around center, random scale, for sparse night sky.
-  - Orbs positioned according to year (depth) and prominence (height), clustered toward center so composition shows orbs centrally rather than spread edge to edge. Size range based on prominence metric, with scale animated on highlight.
-  - Each orb's inner circles use screen blending with multiple alpha layers and radius scales for layered glow.
+  - Terrain uses `#213344`, flat shading, roughness `1`, double-sided rendering, and a rotation of `-π/2` around the x-axis; it is translated `-3` on local z to sit below eye height.
+  - Stars use base radius `0.075`, `20` segments, color `#fffef5`, and deterministic scales in `[0, 1)`.
+  - Orb depth maps years `1944–2014` to `0` through `-27`; height maps backlink prominence `16–1257` to `-1` through `2`. A deterministic collision layout keeps horizontal centers at least `2.5` scene units apart before the documented offsets are applied.
+  - Each orb's inner circles use screen blending with radius multipliers `1`, `0.75`, and `0.5` and corresponding alphas `0.05`, `0.1`, and `0.85`.
 - Behavior / states:
   - When intro active, canvas sits behind intro and is already rendering but visually obscured.
-  - When intro fades, canvas becomes dominant with wide overview showing all orbs small, no story card yet for brief opening portion of visualization scroll.
-  - As visitor scrolls into visualization span, normalized progress scrubs a paused camera timeline. Each orb gets a segment: part to move to it, part to hold there. Final segment pulls camera back to wide, high view.
-  - Camera moves smoothly with gentle interpolation toward target at each orb: near-eye position raised slightly above orb height, looking slightly down and beyond orb.
-  - Orb idle animation: perpetual slow bob and horizontal drift while not highlighted; internal circles drift continuously.
-  - Orb distance fade: orbs far from camera fade in opacity and scale down as distance grows, so only nearby orbs are prominent.
-  - Rendering runs on animation frame at display rate, with only near or highlighted orb textures updated each frame to keep performance smooth.
+  - When intro fades, the canvas becomes dominant with a wide overview. No orb is focused for the first `1%` of visualization progress, and the first story remains hidden until local timeline time `0.5`.
+  - Normalized visualization progress scrubs a `38`-unit camera timeline: `18` orb segments of `2` units each followed by a `2`-unit final pullback. Each orb segment allocates `1` unit to movement and `1` unit to holding.
+  - Camera starts at `(0, 0, 10)`. Each orb target is `(-orbX, orbHeight, orbDepth + 2)` and movement uses quadratic ease-out. Final target is `(0, 0, -32)` because the maximum layout depth is `27`.
+  - Orb planes remain fixed; internal circles drift continuously at `0.6` phase units per second when reduced motion is not requested.
+  - Orb scale is `1` through camera distance `15`, decreases linearly from `1–0` between distances `15–37.5`, and remains `0` beyond `37.5`.
+  - Rendering runs on animation frame at display rate. Orb textures update when distance is below `25`, the orb is focused, or the experience is in the focus-free establishing state.
   - On resize, camera aspect and renderer size adjust to fill viewport.
 - Responsive behavior:
   - Canvas always full viewport on both desktop and mobile.
@@ -266,18 +265,18 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Progress pill showing current position like "5 of 18".
 - Structure, components, and assets:
   - Overlay container fixed, occupies at least full viewport height, mid depth, non-interactive by default, opacity driven by scroll timeline.
-  - Story card inside, fixed centered, max-width around `340px`, padded, centered text, dark text on luminous warm backing for legibility over dark sky, interactive when visible so reference link remains clickable.
-  - Entrance motion described as gentle upward drift with fade, duration under one second, ease-out curve, restarted on each new figure.
-  - Progress pill fixed bottom center, translucent dark with blur, rounded, non-interactive.
+  - Story card inside, fixed at `top: 50%` and `left: 50%`, `max-width: 340px`, `24px` padding, centered text, and dark `#0b1e38` text with the exact two-layer shadow defined above; it is interactive only when visible.
+  - Entrance moves from `translate(-50%, -45%)` and opacity `0` to `translate(-50%, -50%)` and opacity `1` over `0.9s ease-out`, restarting on each new figure.
+  - Progress pill is fixed `24px` from the bottom center with `6px 14px` padding, `20px` radius, `8px` blur, and no pointer interaction.
 - Behavior / states:
-  - Story appears only after camera has arrived at orb. Within each orb dwell segment, early portion hides text, middle portion fades in and holds fully visible, late portion fades out before travel resumes, ensuring text does not show during camera movement.
+  - Within each `2`-unit orb segment, story opacity is `0` through local time `0.5`, fades linearly `0–1` over `0.5–0.7`, holds at `1` over `0.7–1.7`, fades linearly `1–0` over `1.7–1.9`, and remains `0` through `2.0`.
   - When hidden, overlay prevents invisible links from capturing clicks.
   - Progress appears only when visualization is active and a figure is currently focused.
   - Card is keyed by current figure so entrance restarts on each change.
   - Link opens external reference in new tab.
-  - If visitor scrolls quickly, focused index updates with short debounce so camera target and text stay synchronized, avoiding flicker.
+  - The canvas focus index uses an exact `200ms` delay to prevent highlight flicker during quick scrolling; story index and opacity remain directly tied to the scrubbed timeline.
 - Responsive behavior:
-  - Small screens: max-width fluid with gutters, name and summary scale down slightly.
+  - At `480px` and below, the card keeps `max-width: 340px` and `24px` padding; the name is `1.75rem` and summary is `0.85rem`.
 - Accessibility notes:
   - Year shown with strong emphasis, name as prominent heading.
   - Progress pill uses polite live region for announcements.
@@ -287,19 +286,19 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 - Content:
   - Privacy-enhanced documentary video embed (privacy-enhanced YouTube domain) with fallback link text if embed is blocked.
   - Heading inviting further reading about computing history.
-  - Two to three generic further-reading links to public archival resources or encyclopedia portals about women in computing, opened in new tabs, described with original link text (for example "Explore the broader history of women in computing" rather than creator personal essay titles).
+  - Exactly three generic further-reading links to public archival resources or encyclopedia portals about women in computing, opened in new tabs, described with original link text (for example "Explore the broader history of women in computing" rather than creator personal essay titles).
   - Original footer line such as "An original Web Craft archive — built with care for open histories."
 - Structure, components, and assets:
-  - Fixed center panel centered via viewport translation, width around min-content, centered text, higher depth than canvas, pointer events enabled when visible.
+  - Fixed center panel at `top: 50vh`, `left: 50vw`, and stack depth `20`, translated `-50%` on both axes. Desktop width is `min(854px, calc(100vw - 40px))`; pointer events are enabled only when visible.
   - Inner paragraphs include embed and credit links stacked.
   - Credits section with top margin, footer with smaller italic sizing.
 - Behavior / states:
   - Hidden during intro and main visualization.
-  - Becomes visible after camera timeline passes beyond last orb plus a short fade duration, opacity transitioning from hidden to visible.
+  - Becomes visible at camera time `36.5` and fades linearly from opacity `0–1` over exactly `0.5` timeline units, reaching full opacity at `37.0`.
   - When hidden, uses hidden visibility to prevent invisible iframe capturing interaction.
   - When visible, iframe plays independently.
 - Responsive behavior:
-  - Embed size larger on desktop and compact on small, determined by viewport width.
+  - Embed width follows the exact desktop, tablet, and mobile formulas in the responsive system and always keeps aspect ratio `854 / 480`.
 - Accessibility notes:
   - Iframe has descriptive title, allows fullscreen, and is sandboxed with only permissions required for playback.
   - Links have discernible text and open in new tab.
@@ -333,28 +332,28 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 
 ### Intro Narrative
 - Title appears as primary heading at top of initial view with original wording (not reproducing another site's exact phrase beyond generic concept).
-- Subtitle and two to three editorial paragraphs display with newly authored copy describing purpose and organization of the field.
+- Subtitle and exactly three editorial paragraphs display with newly authored copy describing purpose and organization of the field.
 - Two videos and pattern overlay cover background, auto-play muted and loop, with visible crossfade as visitor scrolls through opening viewports.
-- Pattern overlay shows at low opacity over videos.
-- Downward cue is centered at bottom, moves with soft vertical looping motion, and fades out as introduction ends.
+- Pattern overlay covers the intro at opacity `0.3` over both videos.
+- Downward cue is centered at the specified bottom offset, runs the exact `1.5s ease-in-out` `20px` lift cycle, and fades from intro time `2.2–2.9`.
 
 ### Visualization Journey
-- Full-viewport canvas shows dark sky gradient, several hundred small star discs, and low rolling terrain with subtle wireframe emphasis occupying bottom third.
+- Full-viewport canvas shows the exact four-stop sky gradient, `480` star discs, and `#213344` flat-shaded terrain occupying the lower portion of the view.
 - Eighteen orbs rendered as billboards with `4` to `7` warm golden overlapping circles each using screen blending and gentle drift.
-- Wide landing view shows all orbs small and clustered center with no story card for brief opening of visualization scroll.
-- Scrolling advances camera smoothly through orbs in chronological order; each orb dwell includes move plus hold, final pullback smooth.
-- Orb idle floating and internal circle drift are visible and continuous.
+- Wide landing view shows all orbs small and clustered center, with no focused orb for the first `1%` of visualization progress and no story until timeline time `0.5`.
+- Scrolling advances the camera through orbs in chronological order using `1` quadratic-ease-out move unit plus `1` hold unit per orb and a `2`-unit final pullback.
+- Internal circle drift advances continuously at `0.6` phase units per second; orb planes do not move.
 
 ### Story Overlay and Progress
 - When camera settles at an orb, centered card appears with year bold bordered, name prominent, fields italic, short contribution, and reference link to correct public URL per inventory.
-- Card entrance uses a gentle upward drift combined with fade over under one second with ease-out, restarts on each figure change, and fades out before camera leaves.
+- Card entrance moves from `translate(-50%, -45%)` and opacity `0` to `translate(-50%, -50%)` and opacity `1` over `0.9s ease-out`, restarts on each figure change, and follows the exact `0.5–1.9` story visibility window.
 - Progress pill at bottom center shows current position like "1 of 18" through "18 of 18", with blurred dark background, and updates only when a story is active.
 - Quick scrolling does not cause flicker; text syncs to camera dwell window.
 
 ### Closing
-- After last orb, camera pulls back to wide view and closing panel fades in over a short timeline.
+- After the last orb, the camera pulls back over `2` timeline units and the closing panel fades from opacity `0–1` over timeline time `36.5–37.0`.
 - Privacy-enhanced documentary embed is visible and playable with fallback link if blocked.
-- Two to three generic further-reading links plus original footer line appear, not reproducing personal essay titles or portfolio URLs from another product.
+- Exactly three generic further-reading links plus the original footer line appear, not reproducing personal essay titles or portfolio URLs from another product.
 - Hidden closing does not block clicks when invisible.
 
 ### Responsive and Accessibility
