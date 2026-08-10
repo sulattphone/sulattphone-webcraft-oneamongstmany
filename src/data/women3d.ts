@@ -1,17 +1,17 @@
 export interface Woman {
-  name: string
-  year: number
-  fields: string
-  shortSummary: string
-  summary: string
-  url: string
-  backlinks: number
-  birthYear: number | string
-  references: number
-  position: { x: number; y: number; z: number }
+  readonly name: string
+  readonly year: number
+  readonly fields: string
+  readonly shortSummary: string
+  readonly summary: string
+  readonly url: string
+  readonly backlinks: number
+  readonly birthYear: number | null
+  readonly references: number
+  readonly position: Readonly<{ x: number; y: number; z: number }>
 }
 
-const women: Woman[] = [
+const women = [
   {
     name: "Adele Goldstine",
     year: 1944,
@@ -176,7 +176,7 @@ const women: Woman[] = [
     summary: "Nancy Hafkin is a pioneer of networking and development information and electronic communications in Africa, spurring the Pan African Development Information System (PADIS) of the United Nations Economic Commission for Africa (UNECA) from 1987 until 1997. Nancy Hafkin played a role in facilitating the Association for Progressive Communications' work to enable email connectivity in more than 10 countries during the early 1990s, before full Internet connectivity became a reality in most of Africa.",
     url: "https://en.wikipedia.org/wiki/Nancy_Hafkin",
     backlinks: 87,
-    birthYear: "",
+    birthYear: null,
     references: 5,
     position: { x: 34, y: 9, z: -6 }
   },
@@ -224,10 +224,10 @@ const women: Woman[] = [
     summary: "Coraline Ada Ehmke is a software developer and open source advocate based in Chicago, Illinois. She began her career as a web developer in 1994 and has worked in a variety of industries, including engineering, consulting, education, advertising, healthcare, and software development infrastructure. She is known for her work in Ruby, and in 2016 earned the Ruby Hero award at RailsConf, a conference for Ruby on Rails developers. She is also known for her social justice work and activism, the creation of Contributor Covenant, and promoting the widespread adoption of codes of conduct for open source projects and communities.",
     url: "https://en.wikipedia.org/wiki/Coraline_Ada_Ehmke",
     backlinks: 29,
-    birthYear: "",
+    birthYear: null,
     references: 37,
     position: { x: 48, y: 7, z: -2 }
   }
-]
+] satisfies readonly Woman[]
 
 export default women

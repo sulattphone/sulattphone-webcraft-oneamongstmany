@@ -12,32 +12,36 @@ The replica must match the reference screenshot `screenshots/visualization_scree
 
 ---
 
-## 2. Tech Stack — exact versions to reuse
+## 2. Tech Stack
 
-* **Framework:** React 18.2.0 with TypeScript 5.6.0, functional components with hooks only, no class components.
-* **Build tool:** Vite 5.0.0 with `@vitejs/plugin-react` for Fast Refresh. Config in `vite.config.ts`:
+* **Framework:** React 18.3.1 with TypeScript 5.9.3, functional components with hooks only, no class components.
+* **Build tool:** Vite 8.2.1 with `@vitejs/plugin-react` for Fast Refresh. Config in `vite.config.ts`:
   * plugins: react()
-  * server port 5173, host true
-* **3D rendering:** Three.js ^0.160.0 — import via `import * as THREE from 'three'`. No react-three-fiber wrapper; use raw Three.js imperative API inside useEffect.
-* **Routing:** react-router-dom 6.20.0 but single route "/" only; App.tsx sets up BrowserRouter with Routes for future extensibility but currently only Home component rendered.
+  * server port 5173, loopback-only host
+* **3D rendering:** Three.js 0.160.1 — raw Three.js with an explicit lifecycle wrapper; no react-three-fiber.
+* **Routing:** No routing dependency is needed because this is a single-page experience at `/`.
 * **Styling:** CSS Modules with plain CSS, no preprocessors, no Tailwind, no CSS-in-JS. Global styles in `src/index.css`, component-scoped in `src/components/Home.module.css`.
 * **Fonts:** Open Sans served locally from `public/fonts/` — files must exist exactly at those paths, referenced via @font-face in index.css. Weights 400 normal, 400 italic, 700 normal. Do not use Google Fonts CDN; use local woff2 to match original site self-hosting.
-* **Type checking:** TypeScript strict mode false per tsconfig, to match original loose JS behavior. Target ES2020, module ESNext, jsx react-jsx.
+* **Type checking:** TypeScript strict mode. Target ES2020, module ESNext, jsx react-jsx.
 * **Package manager:** npm with package-lock.json checked in. Dependencies exact from package.json:
-  * dependencies: react ^18.2.0, react-dom ^18.2.0, react-router-dom ^6.20.0, three ^0.160.0
-  * devDependencies: @types/react ^18.2.37, @types/react-dom ^18.2.15, @types/three ^0.160.0, typescript ^5.6.0, vite ^5.0.0, vitest ^1.0.0
+  * dependencies: react 18.3.1, react-dom 18.3.1, three 0.160.1
+  * devDependencies: pinned React/Three types, TypeScript 5.9.3, Vite 8.2.1, Vitest 4.1.10
 
 ---
 
-## 3. File Structure — exact paths to create
+## 3. File Structure
 
 ```
 /
 ├── public/
-│   └── fonts/
+│   ├── fonts/
 │       ├── opensans-400.woff2
 │       ├── opensans-400i.woff2
 │       └── opensans-700.woff2
+│   ├── images/bg-pattern.png
+│   └── videos/
+│       ├── fancy_reduced.mp4
+│       └── timelapse_reduced.mp4
 ├── src/
 │   ├── components/
 │   │   ├── Home.tsx
@@ -45,6 +49,7 @@ The replica must match the reference screenshot `screenshots/visualization_scree
 │   ├── data/
 │   │   ├── women.json
 │   │   └── women3d.ts
+│   ├── visualization/  # timeline, camera, layout, random, scene, and tests
 │   ├── App.tsx
 │   ├── main.tsx
 │   ├── index.css
@@ -54,15 +59,14 @@ The replica must match the reference screenshot `screenshots/visualization_scree
 ├── tsconfig.json
 ├── tsconfig.node.json
 ├── vite.config.ts
+├── vercel.json
 ├── .gitignore
 ├── README.md
 ├── PRD.md
 ├── SETUP.md
 ├── site.toml
-└── screenshots/   # reference assets, not used at runtime except videos loaded from CDN
+└── screenshots/   # reference and submission captures
 ```
-
-Do not add extra directories unless explicitly needed. Keep flat structure matching original.
 
 ---
 

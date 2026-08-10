@@ -19,7 +19,7 @@ fonts = ["Open Sans 400", "Open Sans 400i", "Open Sans 700"]
 
 [site.prd]
 file = "PRD.md"
-setup = "npm install && npm run dev"
+setup = "npm ci && npm run dev"
 backend = "None — fully static frontend with no backend services."
 
 [[screenshots]]

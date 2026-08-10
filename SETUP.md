@@ -1,120 +1,83 @@
-# Setup & Deployment — One Amongst Many
+# Setup and verification
 
-Scroll-driven tribute to 18 women in computing: intro narrative with atmospheric videos → 3D landscape (Three.js) → scroll-driven camera travel through floating golden orbs → story overlay per woman → outro with video and credits.
+## Requirements
 
-## Prerequisites
-- Node.js >= 18, npm
-- Vercel CLI (`npm i -g vercel`) logged into `aai-webcraft` team
-- No env vars required (static)
+- Node.js 22.12 or newer
+- npm 10 or newer
 
-## Local development
+This is a fully static frontend. It has no environment variables, API credentials, backend, or database.
+
+## Install and run
+
+Use the committed lockfile rather than resolving new dependency versions:
+
 ```bash
-npm install
-npm run dev      # http://localhost:5173
+npm ci
+npm run dev
 ```
 
-- Auto-scroll helper for screenshots: `http://localhost:5173/?viz=12` scrolls to `vh*12` immediately (see `index.html` script)
+Vite listens on `127.0.0.1:5173`. It is deliberately not exposed to the local network.
 
-## Production build
+## Test and build
+
 ```bash
-npm run build    # tsc && vite build -> dist/ (1.06kB html, 5.49kB css, 711KB js / 205KB gzip, 42 modules)
-npm run preview  # http://localhost:4173 serves dist/
+npm test
+npm audit
+npm run build
+npm run preview
 ```
 
-Vercel build mirrors this: `install -> added 139 packages -> npm run build`.
+The test suite verifies:
 
-## Tech stack (actual)
-- React 18.2.0 + react-dom 18.2.0 + react-router-dom 6.20.0
-- three 0.160.0 (PlaneGeometry terrain 220x220 72 segs, 480 star discs, 18 orb billboards 1.25 with 4-7 warm circles #ffe8a0 0.78 #ffcc66 0.68 #ffb84d 0.58 #e6a040 0.48 screen blend, 3 alpha passes)
-- gsap 3.12.0 (paused timeline, each orb 2 units move+hold, final pullback 2, scrub via seek by scroll progress)
-- Vite 5.0.0 + @vitejs/plugin-react 4.3.0 + TypeScript 5.6 + @types packages
-- CSS Modules + custom properties, Open Sans self-hosted woff2, no external CDNs
+- The ten-viewport intro and original video/text crossfade windows
+- The 1% establishing view before the first orb
+- Eighteen two-unit camera segments and final pullback
+- Story fade-in, hold, and fade-out timing
+- Deterministic finite orb placement
+- The complete women sequence and HTTPS biography URLs
 
-## Routes
-- `/` — Single page long scroll:
-  - Body height 50000px desktop / 25000px mobile (320-480px) for pacing
-  - Intro 10 viewports: title `One Amongst Many`, byline links cdacanay.com / tina.pizza / sxywu.com, two editorial paragraphs + legend paragraph, bounce cue `⌄`, videos `/videos/fancy_reduced.mp4` (first screen) and `/videos/timelapse_reduced.mp4` (second), pattern `/images/bg-pattern.png` 0.3 overlay, crossfade timeline 0-3 (first out 0-0.9, second in 0.8-1.3 hold 1.3-2.2 out 2.2-2.9, whole layer out 2.2-3)
-  - Visualization: canvas fixed 100vw/100vh z1, sky gradient #192e4c zenith → #345488 horizon via #1e3558 40% #2a446e 70%, terrain #213344 with wireframe #3a556f 0.14, 480 stars #FFFEF5 Gaussian, 18 orbs clustered tightly, bob sin 0.35 vert 0.22 horiz
-  - Story overlay: centered card max 340px color #0b1e38 glow text-shadow, year 1.25em 700 bordered, name clamp 1.5rem-2.3rem 700, fields 0.85rem italic 0.9, summary 1.6, read more → Wikipedia new tab, appears per orb local 0.5-1.9 fadeSlideIn -45%→-50% 0.6-0.9s ease-out, progress pill `X of 18` fixed bottom 24px left 50% -50% bg rgba(11,30,56,0.6) blur 8px, aria-live polite
-  - Outro: fixed 50vh/50vw -50%/-50% min-content z20 after last orb +0.5 timeline 0.5 fade, YouTube iframe https://www.youtube.com/embed/bEM0CRdCrQo (854x480 desktop / 340x240 mobile), heading `Read more about One Amongst Many here:`, 3 credit links, footer `Made with love in Brooklyn, 2019.`
+## Behavior contract
 
-## Assets (from /public)
-- `/fonts/opensans-400.woff2`, `opensans-400i.woff2`, `opensans-700.woff2` — @font-face swap
-- `/images/bg-pattern.png` — 0.3 opacity overlay over intro
-- `/videos/fancy_reduced.mp4` (1.8MB) + `/videos/timelapse_reduced.mp4` (3.2MB) — autoplay muted loop playsInline full-cover centered translate -50% -50% min 100vw/100vh pointer-events none 0.3s opacity ease, crossfaded by scroll
-- Data: `src/data/women3d.ts` 18 women (Adele Goldstine 1944 → Coraline Ada Ehmke 2014) with fields year, fields, shortSummary, url, backlinks, birthYear, references, position x,y,z, plus `women.json` legacy
-- No backend, no env vars
+- Desktop body height: `50000px`; tablet: `35000px`; mobile: `25000px`
+- Intro: two local videos and pattern overlay, followed by a crossfade to the visualization
+- Visualization: gradient sky, faceted terrain, 480 stars, and 18 animated golden orb canvases
+- Camera: one timeline unit of eased travel and one unit of hold per woman
+- Story: year, name, field, summary, biography link, and progress pill
+- Outro: responsive 854:480 installation video, three source links, and original footer
 
-## Accessibility
-- html lang en, h1 title, story name as heading, canvas role img aria-label `3D visualization of women in computing, showing glowing orbs... Scroll to explore`, progress aria-live polite, links border-bottom solid → dashed hover, focus visible, contrast #fffef5 on #192e4c AAA, videos decorative muted no captions needed, prefers-reduced-motion disables bounce + fadeSlideIn.
+The responsive breakpoints, colors, text, spacing, scroll distances, story timing, and camera targets are preserved from the prior accepted replica. Procedural randomness now uses fixed seeds so the same scene can be tested and reproduced.
 
-## Deployment — Vercel (AAI project)
+## Assets
 
-**Project:** `aai-webcraft/sulattphone-webcraft-oneamongstmany`
-- Project ID `prj_5EuOFk8BhYdJq64urDCZRaGMzsQj`, org `team_cTx8vJkH2Yt4oQRCXiogNYAn`
-- Framework auto-detected `vite` (Build Command `vite build`, Output `dist`)
+All runtime assets are local except for the closing YouTube embed:
 
-**Prod URLs:**
-- `https://sulattphone-webcraft-oneamongstmany.vercel.app` (aliased, Ready)
-- `https://sulattphone-webcraft-oneamongstmany-aai-webcraft.vercel.app`
-- Example deployment `https://sulattphone-webcraft-oneamongstmany-f1pn6njj8-aai-webcraft.vercel.app` Ready dpl_AzyNsMzqS8BWSDDXAyRQhaqwgUco 18s build 13s, 139 packages
+- `public/videos/fancy_reduced.mp4`
+- `public/videos/timelapse_reduced.mp4`
+- `public/images/bg-pattern.png`
+- `public/fonts/opensans-400.woff2`
+- `public/fonts/opensans-400i.woff2`
+- `public/fonts/opensans-700.woff2`
 
-**Deploy steps (used):**
-```bash
-vercel link --yes --project sulattphone-webcraft-oneamongstmany --scope aai-webcraft # detected Vite, created project, connected GitHub
-vercel deploy --prod --scope aai-webcraft --yes --force --logs
-# Build logs: Installing 139 packages, tsc && vite build, 42 modules, dist/assets/index-DPVH7jf5.js 711KB gzip 205KB, Build Completed [13s], Aliased ...vercel.app, Ready in 23s
+The font files identify as Google Open Sans version 196805 with regular, italic, and bold styles. Their SHA-256 checksums are:
+
+```text
+ce39fe93a4c5179c0d53a4bdc2a378bdd713cdcfd15d812b0e26694d7f6d9867  opensans-400.woff2
+920971d9555fc7f93ddffa2375d65a9e36ca425b6bf8bc142b14c922eaeec218  opensans-400i.woff2
+aa4b76b7fcdebb911745fec80e8e6708ca26bfe3361118c0d96462029f4c130c  opensans-700.woff2
 ```
 
-**Fixes applied for Vercel build:**
-- Missing `gsap` (imported in Home.tsx but not in package.json) → added `gsap@^3.12.0` to dependencies (was failing `added 95 packages` exit 1/2)
-- Missing `@vitejs/plugin-react` (imported in vite.config.ts but not in devDeps) → added `^4.3.0` (was failing `failed to load config from vite.config.ts`, `ERR_MODULE_NOT_FOUND @vitejs/plugin-react`)
+## Deployment and access
 
-**Firewall:**
-- API `security/firewall/config` currently `active null draft null versions []` (no custom rules). For Meta-restricted preview you would add `163.114.128.0/20` + `199.201.64.0/22` via `vercel firewall` dashboard, but final prod is public for review. `site.toml` `hosting_access_granted=true`.
+The production URL is recorded in `site.toml`. The `hosting_access_granted` field describes submission ownership transfer; it does not configure public access or firewall policy.
 
-**site.toml manifest:**
-- name `sulattphone-webcraft-oneamongstmany`, url `https://sulattphone-webcraft-oneamongstmany.vercel.app`, category `personal-intelligence`, stack `React, Three.js, Vite, TypeScript`, hosting `vercel` granted true, assets images `bg-pattern.png` videos 2, fonts 3, screenshots home-desktop/mobile
+Before deploying, verify the Vercel project’s current:
 
-## Screenshots
-- `screenshots/home-desktop.png` — 1440×900 desktop (2.9MB) — updated Aug 6
-- `screenshots/home-mobile.png` — 390×844 mobile (723KB) — updated Aug 6
-- Extra dev screenshots removed for submission cleanliness
+- Team and project members
+- Git integration and deploy hooks
+- Environment variables and secrets
+- Firewall rules and temporary bypasses
+- Active access tokens
 
-## Tests
-```bash
-npm test  # Vitest placeholder, no meaningful unit tests for visual experience
-```
+Do not deploy from an unreviewed local `.vercel` link. Confirm the intended account and project first. The security headers in `vercel.json` should be checked on the resulting preview before promoting it to production.
 
-## Narration / Walkthrough Video (pxl.cl)
-
-Narrated screen-recording walkthrough, per Web Craft submission requirements, uploaded to pxl.cl.
-
-- Main walkthrough: **https://pxl.cl/c7DnV** — covers intro narrative with video crossfade, scroll-driven camera journey through 18 glowing orbs, orb story overlay (year/name/fields/summary + read more), progress indicator, and outro closure with YouTube + credits
-- Video not committed to repo — only link tracked, per track requirements
-
-Content in video: scroll 0→10vh intro crossfade (fancy → timelapse + legend), wide landing 1% overview, 18 orbs camera travel (2 units move+hold each, final pullback), story cards fadeSlideIn + progress `X of 18`, outro YouTube + credits `Made with love in Brooklyn, 2019.`
-
-## Validation
-
-- `PRD.md` validated via `webcraft-prd-validate` skill:
-  - Run dir `.prd-validation-runs/sulattphone-webcraft-oneamongstmany/20260806-113134-2501021-29768/`
-  - `validation.json` contract OK, R1-R6 PASS, W1-W4 OK
-  - No replica/original-site, no implementation refs, scaffold structure intact
-- `features.json` 5 rubrics validated `json.tool`
-- Build `npm run build` passes locally and remotely
-
-## Submission checklist
-
-- [x] `site.toml` hosting_access_granted true, url live
-- [x] `PRD.md` product-facing, no class names, PASS validation
-- [x] `SETUP.md` updated with actual build + deploy instructions (this file)
-- [x] `README.md` updated with actual tech stack and prod URL
-- [x] `features.json` 5 must-have rubrics matching implementation (including Long-scroll story progression)
-- [x] `screenshots/home-desktop.png` + `home-mobile.png` present (user uploaded)
-- [x] `public/` assets (fonts, pattern, 2 videos) used in product
-- [x] Deployed to AAI `aai-webcraft/sulattphone-webcraft-oneamongstmany` prod `https://sulattphone-webcraft-oneamongstmany.vercel.app` Ready, 200 OK
-- [x] `package.json` dependencies fixed and committed (gsap, @vitejs/plugin-react)
-- [x] Walkthrough video pxl.cl link — **https://pxl.cl/c7DnV** (provided, added to SETUP)
-
-Submission ready via Web Craft portal — prod live, PRD PASS, features 5 rubrics, screenshots updated, walkthrough linked.
+Walkthrough video: <https://pxl.cl/c7DnV>

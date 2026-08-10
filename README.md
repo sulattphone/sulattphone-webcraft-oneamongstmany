@@ -1,50 +1,52 @@
 # One Amongst Many — Web Craft Submission
 
-A scroll-driven tribute to women in computing. Single-page experience combining atmospheric video backgrounds, a Three.js WebGL landscape with floating golden orbs, and scroll-linked camera travel that dwells at each woman's story.
+A faithful, scroll-driven recreation of [oneamongstmany.com](https://oneamongstmany.com). The experience moves from an atmospheric video introduction into a Three.js landscape of 18 glowing orbs, one for each featured woman in computing, before closing with the original installation video and credits.
 
-Live: **https://sulattphone-webcraft-oneamongstmany.vercel.app** (AAI team `aai-webcraft/sulattphone-webcraft-oneamongstmany`)
+Live site: <https://sulattphone-webcraft-oneamongstmany.vercel.app>
 
-## Quick Start
+## Local development
+
+Node.js 22.12 or newer is required.
 
 ```bash
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # tsc && vite build -> dist/
-npm run preview  # http://localhost:4173
+npm ci
+npm run dev
 ```
 
-## Required Files
+The local server listens only on `http://127.0.0.1:5173`.
 
-- `site.toml` — Submission manifest (url, stack, assets, screenshots, hosting_access_granted=true)
-- `PRD.md` — Product requirements document (validated PASS R1-R6 / W1-W4)
-- `SETUP.md` — Setup & deployment instructions (includes prod URL and walkthrough link https://pxl.cl/c7DnV)
-- `.env.example` — Placeholder (no env vars required, static frontend)
-- `screenshots/` — Desktop 1440×900 `home-desktop.png` and Mobile 390×844 `home-mobile.png` (user-uploaded)
-- `features.json` — Five key rubrics: long-scroll progression, 3D space with floating orbs, scroll camera journey, orb story overlay, atmospheric intro/outro
+```bash
+npm test
+npm run build
+npm run preview
+```
 
-## Tech Stack
+## Implementation
 
-- React 18 + Vite 5 + TypeScript (`tsc && vite build`)
-- Three.js 0.160 for 3D terrain, sky gradient sphere, star field, 18 billboard orbs with warm golden glow (#ffe8a0, #ffcc66, #ffb84d, #e6a040)
-- GSAP 3.12 for scroll-scrubbed camera timeline (no ScrollTrigger, custom seek)
-- CSS Modules (`Home.module.css`) + global custom properties (`index.css`)
-- Self-hosted Open Sans 400, 400i, 700 in `/public/fonts/` (woff2)
-- Assets from `/public`: `images/bg-pattern.png` (0.3 overlay), `videos/fancy_reduced.mp4` + `timelapse_reduced.mp4` (intro crossfade), fonts above
-- No backend, fully static
+- React 18, TypeScript, Three.js, and Vite
+- Native, deterministic scroll and camera timeline; no animation framework
+- Self-hosted Open Sans, pattern image, and two intro videos
+- Static frontend with no API, environment variables, authentication, cookies, or browser storage
+- Responsive desktop, tablet, and mobile pacing matching the original experience
 
-## Deployment
+The visualization is split into pure timeline, camera, layout, random, and rendering modules under `src/visualization/`. Unit tests lock the intro crossfade, two-unit orb rhythm, camera targets, data sequence, and scroll boundaries.
 
-Deployed to **AAI Web Craft** team via Vercel CLI:
+## Security posture
 
-- Project: `aai-webcraft/sulattphone-webcraft-oneamongstmany` (`prj_5EuOFk8BhYdJq64urDCZRaGMzsQj`)
-- Production: `https://sulattphone-webcraft-oneamongstmany.vercel.app`
-- Build: `added 139 packages, 42 modules transformed, 2.51s`, output `711KB / 205KB gzip`
-- Build fix: added missing `gsap` and `@vitejs/plugin-react` to `package.json`
+- Exact dependency versions and a reviewed npm lockfile
+- Zero known npm audit findings at the time of this rewrite
+- Development and preview servers bound to loopback
+- Privacy-enhanced, sandboxed YouTube embed with limited permissions
+- HTTPS-only outbound links
+- Production CSP, Permissions-Policy, framing, MIME-sniffing, referrer, and cross-origin headers in `vercel.json`
+- Full cleanup of WebGL resources, timers, animation frames, and browser listeners
 
-Walkthrough video: **https://pxl.cl/c7DnV** — narrated scroll through intro crossfade → 18 orbs → outro.
+Deployment firewall rules, ownership, members, bypasses, and tokens are managed by the hosting platform and are not controlled by `site.toml` or this application.
 
-See `SETUP.md` for full local, build, Vercel prod deploy steps, PRD validation, and submission checklist.
+## Submission material
 
-## Full Guide
-
-See the [Web Craft track guide](https://www.multimango.com/admin/aai-hackathons/web-craft) for complete instructions, field reference, and submission checklist.
+- Product requirements: `PRD.md`
+- Setup and verification: `SETUP.md`
+- Feature rubrics: `features.json`
+- Desktop and mobile captures: `screenshots/`
+- Walkthrough: <https://pxl.cl/c7DnV>

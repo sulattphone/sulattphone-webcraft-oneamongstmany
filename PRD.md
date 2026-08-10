@@ -287,11 +287,11 @@ Flow still presents Intro → Visualization → Story/Progress → Outro → Glo
 #### Outro Region
 
 - Content:
-  - YouTube iframe `https://www.youtube.com/embed/bEM0CRdCrQo` (fallback link to same URL if embed blocked)
+  - Privacy-enhanced YouTube iframe `https://www.youtube-nocookie.com/embed/bEM0CRdCrQo` (fallback link to the video if embed is blocked)
   - Heading `Read more about One Amongst Many here:`
-  - Christina's essay `http://www.cdacanay.com/itp-blog/2019/12/23/one-amongst-many-connecting-womxn-in-computing` linked as `Christina's design-centric recounting`
+  - Christina's essay `https://cdacanay.com/itp-blog/2019/12/23/one-amongst-many-connecting-womxn-in-computing` linked as `Christina's design-centric recounting`
   - Tina's story `https://tina.pizza/one-amongst-many` linked as `Tina's physical computing story`
-  - Shirley's write-up `http://www.datasketch.es/june/` linked as `Shirley's data visualization write-up`
+  - Shirley's write-up `https://www.datasketch.es/june/` linked as `Shirley's data visualization write-up`
   - Footer `Made with love in Brooklyn, 2019.`
 - Structure, components, and assets:
   - Fixed center panel at `top 50vh` `left 50vw` `translate(-50%, -50%)`, width `min-content`, centered text, `z-index 20`, color `#fffef5`, pointer events auto when visible.
@@ -305,7 +305,7 @@ Flow still presents Intro → Visualization → Story/Progress → Outro → Glo
 - Responsive behavior:
   - Iframe size `854` by `480` desktop, `340` by `240` small, determined by phone detection.
 - Accessibility notes:
-  - Iframe has standard YouTube title and allows fullscreen.
+  - Iframe has a descriptive title, allows fullscreen, and is sandboxed with only the permissions required for playback.
   - Credit links have discernible text and open in new tab.
   - Outro remains keyboard reachable when visible.
 
@@ -359,7 +359,7 @@ Flow still presents Intro → Visualization → Story/Progress → Outro → Glo
 
 ### Outro
 - After last orb, camera pulls back to wide view and outro fades in over `0.5` timeline units.
-- YouTube embed `https://www.youtube.com/embed/bEM0CRdCrQo` visible and playable.
+- Privacy-enhanced YouTube embed `https://www.youtube-nocookie.com/embed/bEM0CRdCrQo` visible and playable.
 - Three credit links with exact titles appear, plus footer `Made with love in Brooklyn, 2019.`
 - Hidden outro does not block clicks when invisible.
 
