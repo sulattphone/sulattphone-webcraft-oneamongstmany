@@ -89,7 +89,7 @@ This is an original concept inspired by physical data installations where illumi
   - Because scroll directly controls opacity, there is no independent millisecond duration or CSS easing.
 - **Story entrance:** The centered card animates from opacity `0` and `translate(-50%, -45%)` to opacity `1` and `translate(-50%, -50%)` over exactly `0.9s` with `ease-out`, restarting whenever the displayed figure changes.
 - **Scroll cue motion:** The downward indicator runs an infinite `1.5s ease-in-out` cycle, moving from `translateY(0)` at `0%` to `translateY(-20px)` at `50%` and back to `translateY(0)` at `100%`.
-- **Camera travel:** Each orb receives exactly `2` normalized timeline units: `1` unit of travel followed by `1` unit of hold. Travel uses quadratic ease-out `1 - (1 - p)^2`. The final pullback lasts exactly `2` units.
+- **Camera travel:** Each orb receives exactly `2` normalized timeline units: `1` unit of travel followed by `1` unit of hold. Travel uses quadratic ease-out. The final pullback lasts exactly `2` units.
 - **Orb idle motion:** The orb planes remain fixed while their internal circles move, preventing the chronological layout from wandering.
 - **Circle drift inside orbs:** Internal motion advances at `0.6` phase units per second; each circle follows deterministic pseudo-noise plus circular motion, with its speed mapped from `0.5` through `1.0` by the figure's age at achievement.
 - No motion description references concrete CSS keyframe identifiers; all motion is described by its perceived behavior and timing qualities.
@@ -108,7 +108,11 @@ This is an original concept inspired by physical data installations where illumi
 - Pattern overlay covers the entire intro at opacity `0.3`, preserving legibility of text over video.
 - Canvas visuals are procedural — no baked hero images — except for pattern overlay and two intro videos from `/public`.
 - Embedded video in closing panel is a standard privacy-enhanced embed.
-- **Fallbacks:** If atmospheric videos fail to load or autoplay is blocked, intro shows solid deep navy background with pattern overlay retained and editorial text at full opacity so purpose remains readable. If pattern image fails, intro degrades to solid navy and videos alone. If body font fails, fallback sans-serif maintains line-height and readability. Closing video if blocked shows a text link fallback.
+- **Fallbacks:**
+  - If atmospheric videos fail to load or autoplay is blocked, intro shows solid deep navy background with pattern overlay retained and editorial text at full opacity so purpose remains readable.
+  - If pattern image fails, intro degrades to solid navy and videos alone.
+  - If body font fails, fallback sans-serif maintains line-height and readability.
+  - If closing video is blocked, show a text link fallback.
 
 ## 4. Global Accessibility Requirements
 
@@ -248,7 +252,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - When intro active, canvas sits behind intro and is already rendering but visually obscured.
   - When intro fades, the canvas becomes dominant with a wide overview. No orb is focused for the first `1%` of visualization progress, and the first story remains hidden until local timeline time `0.5`.
   - Normalized visualization progress scrubs a `38`-unit camera timeline: `18` orb segments of `2` units each followed by a `2`-unit final pullback. Each orb segment allocates `1` unit to movement and `1` unit to holding.
-  - Camera starts at `(0, 0, 10)`. Each orb target is `(-orbX, orbHeight, orbDepth + 2)` and movement uses quadratic ease-out. Final target is `(0, 0, -32)` because the maximum layout depth is `27`.
+  - Camera starts from an elevated front position. Each orb target is positioned slightly forward of its depth at its height and centered horizontally, using quadratic ease-out. Final target is a wide elevated view beyond the maximum layout depth.
   - Orb planes remain fixed; internal circles drift continuously at `0.6` phase units per second when reduced motion is not requested.
   - Orb scale is `1` through camera distance `15`, decreases linearly from `1–0` between distances `15–37.5`, and remains `0` beyond `37.5`.
   - Rendering runs on animation frame at display rate. Orb textures update when distance is below `25`, the orb is focused, or the experience is in the focus-free establishing state.
