@@ -214,7 +214,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Pattern overlay `/images/bg-pattern.png` at opacity `0.3` over videos.
   - Text block `max-width: 600px`, centered at `top: 40vh` and `left: 50vw` on desktop with line-height `2`, at stack depth `10`, interactive so links remain clickable while videos remain behind.
   - Second text block same dimensions but staggered timing.
-  - Scroll cue is full-width and centered with bottom offsets `80px` desktop, `40px` tablet, and `10px` mobile; its exact `1.5s` motion is defined above.
+  - Scroll cue is full-width and centered; bottom offsets follow the Responsive system and motion is defined above.
 - Behavior / states:
   - On page entry, view starts at top, intro fully opaque.
   - Scroll maps the first `10` viewport heights to normalized intro time `0–3`:
@@ -226,8 +226,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Visualization rendering becomes visible after `82%` of the intro distance, exactly `8.2` viewport heights from the top.
   - When text blocks are transparent, their links become non-interactive.
 - Responsive behavior:
-  - At `480px` and below, the text block uses `top: 45vh`, `left: 0`, `width: calc(100% - 40px)`, `20px` padding, `translateY(-50%)`, and `14px` body text.
-  - Scroll cue bottom offset is `10px` at `480px` and below.
+  - Intro block, body text, and scroll cue follow the Responsive system values for desktop, tablet, and mobile rather than redefining them here.
 - Accessibility notes:
   - Heading hierarchy starts with `h1`.
   - Videos marked as decorative via pointer-events none and muted autoplay; no information conveyed only by video.
@@ -285,7 +284,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Link opens external reference in new tab.
   - The canvas focus index uses an exact `200ms` delay to prevent highlight flicker during quick scrolling; story index and opacity remain directly tied to the scrubbed timeline.
 - Responsive behavior:
-  - At `480px` and below, the card keeps `max-width: 340px` and `24px` padding; the name is `1.75rem` and summary is `0.85rem`.
+  - Story card sizing and typography follow the Responsive system and typography scale defined in the global design system.
 - Accessibility notes:
   - Year shown with strong emphasis, name as prominent heading.
   - Progress pill uses polite live region for announcements.
@@ -307,7 +306,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - When hidden, uses hidden visibility to prevent invisible iframe capturing interaction.
   - When visible, iframe plays independently.
 - Responsive behavior:
-  - Embed width follows the exact desktop, tablet, and mobile formulas in the responsive system and always keeps aspect ratio `854 / 480`.
+  - Outro embed sizing follows the Responsive system and retains aspect ratio `854 / 480`.
 - Accessibility notes:
   - Iframe has descriptive title, allows fullscreen, and is sandboxed with only permissions required for playback.
   - Links have discernible text and open in new tab.
