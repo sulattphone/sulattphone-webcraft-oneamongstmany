@@ -326,8 +326,8 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Link base style solid underline, hover dashed.
   - No header or footer navigation; footer only appears as part of closing content.
 - Behavior / states:
-  - On entry, history scroll restoration set to manual and page scrolled to top.
-  - Scroll listening uses passive listener for performance.
+  - On entry, view starts at top of the page.
+  - Scroll interaction remains smooth and responsive across desktop and mobile.
 - Responsive behavior:
   - Body height switches at small breakpoint as described.
   - Prevents horizontal overflow.
