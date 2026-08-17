@@ -8,7 +8,7 @@ The core interaction is scroll-driven camera travel. As the visitor scrolls, the
 
 The tone is editorial, calm, and cinematic. The product prioritizes continuity of motion, legibility of text, and a sense of scale created by a very tall scroll runway and clustering of distant lights.
 
-This is an original concept inspired by physical data installations where illuminated volumes hold individual biographies, reinterpreted as a virtual night-field that anyone can traverse at their own pace. It is not a replica of an existing named site and does not reuse that site's editorial wording, personal bylines, or creator essays.
+This is an original concept inspired by physical data installations where illuminated volumes hold individual biographies, reinterpreted as a virtual night-field that anyone can traverse at their own pace.
 
 ## 2. Audience and Core Experience
 
@@ -33,7 +33,7 @@ This is an original concept inspired by physical data installations where illumi
 - Calm, uninterrupted scroll control with no competing navigation.
 - Sense of scale created by a very tall scroll runway.
 - Warm glowing presence for each individual against a cool dark environment.
-- Original editorial voice throughout — no verbatim copy from any prior tribute site.
+- Original editorial voice throughout with newly authored copy for all editorial sections.
 
 ## 3. Global Design System
 
@@ -83,7 +83,10 @@ This is an original concept inspired by physical data installations where illumi
 
 ### Motion language
 - **Global:** Smooth scrolling enabled so programmatic scroll animates rather than jumps.
-- **Video crossfade:** This is scroll-scrubbed, not clock-timed. Across the intro's normalized `0–3` timeline, the first video stays at opacity `1` through `1.0` and fades linearly to `0` from `1.0–1.4`; the second video fades linearly from `0–1` over `0.8–1.3`, holds through `2.2`, and fades linearly to `0` over `2.2–2.9`. Because scroll directly controls opacity, there is no independent millisecond duration or CSS easing.
+- **Video crossfade:** This is scroll-scrubbed, not clock-timed. Across the intro's normalized `0–3` timeline:
+  - First video: stays at opacity `1` through `1.0` and fades linearly to `0` from `1.0–1.4`.
+  - Second video: fades linearly from `0–1` over `0.8–1.3`, holds through `2.2`, and fades linearly to `0` over `2.2–2.9`.
+  - Because scroll directly controls opacity, there is no independent millisecond duration or CSS easing.
 - **Story entrance:** The centered card animates from opacity `0` and `translate(-50%, -45%)` to opacity `1` and `translate(-50%, -50%)` over exactly `0.9s` with `ease-out`, restarting whenever the displayed figure changes.
 - **Scroll cue motion:** The downward indicator runs an infinite `1.5s ease-in-out` cycle, moving from `translateY(0)` at `0%` to `translateY(-20px)` at `50%` and back to `translateY(0)` at `100%`.
 - **Camera travel:** Each orb receives exactly `2` normalized timeline units: `1` unit of travel followed by `1` unit of hold. Travel uses quadratic ease-out `1 - (1 - p)^2`. The final pullback lasts exactly `2` units.
@@ -126,16 +129,16 @@ This is an original concept inspired by physical data installations where illumi
 ## 5. Global Content and Data
 
 ### Brand and copy
-- Product name for this iteration: `Lumen Field` (original name for this Web Craft submission; repository name retains historical identifier for hosting).
-- Voice: Reflective, respectful, concise, original — no verbatim reuse of editorial copy from any existing tribute site.
+- Product name: `Lumen Field`.
+- Voice: Reflective, respectful, concise, and original with newly authored editorial copy.
 - Intro copy is newly authored for this project, describing how computing histories often under-represent women's contributions and how a field of lights invites slow encounter.
-- Footer closing is an original line such as "An original Web Craft archive — built with care for open histories." — not reproducing any prior site's Brooklyn byline.
+- Footer closing is an original line authored for this archive, for example "Built with care for open histories."
 - No real-person bylines linking to external portfolios are presented as product identity.
 
 ### Navigation and links
 - No internal navigation aside from scroll.
 - Story reference links point to public encyclopedia biographies for each figure, opened in a new tab.
-- Closing panel provides one documentary video embed and exactly three generic further-reading links to public resources about computing history (not personal design-essay URLs from another project's creators).
+- Closing panel provides one documentary video embed and exactly three generic further-reading links to public resources about computing history.
 
 ### Data structure
 - Collection contains `18` figures. Each record includes:
@@ -216,7 +219,10 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Scroll cue is full-width and centered with bottom offsets `80px` desktop, `40px` tablet, and `10px` mobile; its exact `1.5s` motion is defined above.
 - Behavior / states:
   - On page entry, view starts at top, intro fully opaque.
-  - Scroll maps the first `10` viewport heights to normalized intro time `0–3`. The first text fades linearly from opacity `1–0` over time `0–0.9`; the first video fades `1–0` over `1.0–1.4`; the second text and video fade `0–1` over `0.8–1.3`, hold at `1` through `2.2`, then fade `1–0` over `2.2–2.9`.
+  - Scroll maps the first `10` viewport heights to normalized intro time `0–3`:
+    - First text: fades linearly from opacity `1–0` over time `0–0.9`.
+    - First video: fades `1–0` over `1.0–1.4`.
+    - Second text and video: fade `0–1` over `0.8–1.3`, hold at `1` through `2.2`, then fade `1–0` over `2.2–2.9`.
   - The cue holds opacity `1` through intro time `2.2`, then fades linearly to `0` over `2.2–2.9`.
   - The entire intro layer holds opacity `1` through time `2.2`, then fades linearly to `0` over `2.2–3.0`.
   - Visualization rendering becomes visible after `82%` of the intro distance, exactly `8.2` viewport heights from the top.
@@ -269,7 +275,12 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
   - Entrance moves from `translate(-50%, -45%)` and opacity `0` to `translate(-50%, -50%)` and opacity `1` over `0.9s ease-out`, restarting on each new figure.
   - Progress pill is fixed `24px` from the bottom center with `6px 14px` padding, `20px` radius, `8px` blur, and no pointer interaction.
 - Behavior / states:
-  - Within each `2`-unit orb segment, story opacity is `0` through local time `0.5`, fades linearly `0–1` over `0.5–0.7`, holds at `1` over `0.7–1.7`, fades linearly `1–0` over `1.7–1.9`, and remains `0` through `2.0`.
+  - Within each `2`-unit orb segment, story opacity follows these phases:
+    - `0` through local time `0.5`.
+    - Fades linearly `0–1` over `0.5–0.7`.
+    - Holds at `1` over `0.7–1.7`.
+    - Fades linearly `1–0` over `1.7–1.9`.
+    - Remains `0` through `2.0`.
   - When hidden, overlay prevents invisible links from capturing clicks.
   - Progress appears only when visualization is active and a figure is currently focused.
   - Card is keyed by current figure so entrance restarts on each change.
@@ -286,8 +297,8 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 - Content:
   - Privacy-enhanced documentary video embed (privacy-enhanced YouTube domain) with fallback link text if embed is blocked.
   - Heading inviting further reading about computing history.
-  - Exactly three generic further-reading links to public archival resources or encyclopedia portals about women in computing, opened in new tabs, described with original link text (for example "Explore the broader history of women in computing" rather than creator personal essay titles).
-  - Original footer line such as "An original Web Craft archive — built with care for open histories."
+  - Exactly three generic further-reading links to public archival resources or encyclopedia portals about women in computing, opened in new tabs, described with original link text, for example "Explore the broader history of women in computing".
+  - Original footer line authored for this archive, for example "Built with care for open histories."
 - Structure, components, and assets:
   - Fixed center panel at `top: 50vh`, `left: 50vw`, and stack depth `20`, translated `-50%` on both axes. Desktop width is `min(854px, calc(100vw - 40px))`; pointer events are enabled only when visible.
   - Inner paragraphs include embed and credit links stacked.
@@ -331,7 +342,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 ## 7. Acceptance Criteria
 
 ### Intro Narrative
-- Title appears as primary heading at top of initial view with original wording (not reproducing another site's exact phrase beyond generic concept).
+- Title appears as primary heading at top of initial view with original wording.
 - Subtitle and exactly three editorial paragraphs display with newly authored copy describing purpose and organization of the field.
 - Two videos and pattern overlay cover background, auto-play muted and loop, with visible crossfade as visitor scrolls through opening viewports.
 - Pattern overlay covers the intro at opacity `0.3` over both videos.
@@ -353,7 +364,7 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 ### Closing
 - After the last orb, the camera pulls back over `2` timeline units and the closing panel fades from opacity `0–1` over timeline time `36.5–37.0`.
 - Privacy-enhanced documentary embed is visible and playable with fallback link if blocked.
-- Exactly three generic further-reading links plus the original footer line appear, not reproducing personal essay titles or portfolio URLs from another product.
+- Exactly three generic further-reading links plus the original footer line appear with newly authored link text.
 - Hidden closing does not block clicks when invisible.
 
 ### Responsive and Accessibility
