@@ -80,4 +80,6 @@ Before deploying, verify the Vercel project’s current:
 
 Do not deploy from an unreviewed local `.vercel` link. Confirm the intended account and project first. The security headers in `vercel.json` should be checked on the resulting preview before promoting it to production.
 
+
+## Narration / Walkthrough Videos
 Walkthrough video: <https://pxl.cl/c7DnV>
