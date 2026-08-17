@@ -132,13 +132,11 @@ This is an original concept inspired by physical data installations where illumi
 - Product name: `Lumen Field`.
 - Voice: Reflective, respectful, concise, and original with newly authored editorial copy.
 - Intro copy is newly authored for this project, describing how computing histories often under-represent women's contributions and how a field of lights invites slow encounter.
-- Footer closing is an original line authored for this archive, for example "Built with care for open histories."
 - No real-person bylines linking to external portfolios are presented as product identity.
 
 ### Navigation and links
 - No internal navigation aside from scroll.
 - Story reference links point to public encyclopedia biographies for each figure, opened in a new tab.
-- Closing panel provides one documentary video embed and exactly three generic further-reading links to public resources about computing history.
 
 ### Data structure
 - Collection contains `18` figures. Each record includes:
@@ -345,26 +343,26 @@ Flow presents Intro → Visualization → Story/Progress → Closing → Global 
 - Title appears as primary heading at top of initial view with original wording.
 - Subtitle and exactly three editorial paragraphs display with newly authored copy describing purpose and organization of the field.
 - Two videos and pattern overlay cover background, auto-play muted and loop, with visible crossfade as visitor scrolls through opening viewports.
-- Pattern overlay covers the intro at opacity `0.3` over both videos.
-- Downward cue is centered at the specified bottom offset, runs the exact `1.5s ease-in-out` `20px` lift cycle, and fades from intro time `2.2–2.9`.
+- Pattern overlay covers the intro over both videos.
+- Downward cue is centered, animates with gentle looping vertical motion, and fades as intro concludes.
 
 ### Visualization Journey
-- Full-viewport canvas shows the exact four-stop sky gradient, `480` star discs, and `#213344` flat-shaded terrain occupying the lower portion of the view.
-- Eighteen orbs rendered as billboards with `4` to `7` warm golden overlapping circles each using screen blending and gentle drift.
-- Wide landing view shows all orbs small and clustered center, with no focused orb for the first `1%` of visualization progress and no story until timeline time `0.5`.
-- Scrolling advances the camera through orbs in chronological order using `1` quadratic-ease-out move unit plus `1` hold unit per orb and a `2`-unit final pullback.
-- Internal circle drift advances continuously at `0.6` phase units per second; orb planes do not move.
+- Full-viewport canvas shows sky gradient, star field, and flat-shaded terrain occupying lower portion of view.
+- Orbs rendered as billboards with warm overlapping circles using screen blending and gentle drift, each grouping multiple circles.
+- Wide landing view shows all orbs small and clustered center with no focused orb during initial establishing view and no story until dwell begins.
+- Scrolling advances the camera through orbs in chronological order with distinct travel and hold phases per orb and a final pullback to wide view.
+- Internal circle motion continues gently while orb planes remain fixed in layout.
 
 ### Story Overlay and Progress
-- When camera settles at an orb, centered card appears with year bold bordered, name prominent, fields italic, short contribution, and reference link to correct public URL per inventory.
-- Card entrance moves from `translate(-50%, -45%)` and opacity `0` to `translate(-50%, -50%)` and opacity `1` over `0.9s ease-out`, restarts on each figure change, and follows the exact `0.5–1.9` story visibility window.
+- When camera settles at an orb, centered card appears with year, name, field, short contribution, and reference link to correct public URL per inventory.
+- Card entrance animates with soft upward drift and fade, restarts on each figure change, and syncs to camera dwell window without flicker.
 - Progress pill at bottom center shows current position like "1 of 18" through "18 of 18", with blurred dark background, and updates only when a story is active.
-- Quick scrolling does not cause flicker; text syncs to camera dwell window.
+- Quick scrolling does not cause flicker; text syncs to camera dwell.
 
 ### Closing
-- After the last orb, the camera pulls back over `2` timeline units and the closing panel fades from opacity `0–1` over timeline time `36.5–37.0`.
+- After the last orb, camera pulls back to wide elevated view and closing panel fades in.
 - Privacy-enhanced documentary embed is visible and playable with fallback link if blocked.
-- Exactly three generic further-reading links plus the original footer line appear with newly authored link text.
+- Exactly three generic further-reading links plus original footer line appear with newly authored link text.
 - Hidden closing does not block clicks when invisible.
 
 ### Responsive and Accessibility
